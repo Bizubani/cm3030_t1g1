@@ -26,8 +26,8 @@ public class WeaponBulletLogic : MonoBehaviour
     bool shooting, readyToShoot, reloading;
 
     //Reference
-    public Camera twoPointFiveDimensionCamera;
-    public Transform attackPoint;
+    public Camera playerCamera;
+    public List<Transform> allAttackPoints;
 
     //Graphics
     public GameObject muzzleFlash;
@@ -95,7 +95,7 @@ public class WeaponBulletLogic : MonoBehaviour
 
         //Find the exact hit position using a raycast
         //Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Ray ray = twoPointFiveDimensionCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
         RaycastHit hit;
 
         //check if ray hits something
@@ -110,50 +110,52 @@ public class WeaponBulletLogic : MonoBehaviour
             targetPoint = ray.GetPoint(75); //Just a point away from the player
         }
 
-        //calculate direction from attack Point to target Poinnt
-         Vector3 directionWithoutSpread = targetPoint - attackPoint.position;
-
-        //Calculate spread
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
-
-        //Calculate new direction with spread
-        Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Add Spread to Direction
-
-        //Instantiate bullet/projectile
-        GameObject currentBullet = Instantiate(bullet, attackPoint.position, Quaternion.identity);
-        //Rotate Bullet to shoot Direction
-        currentBullet.transform.forward = directionWithSpread.normalized;
-
-        //Use The Force Luke
-        currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-        //For bouncing Grenades
-        currentBullet.GetComponent<Rigidbody>().AddForce(twoPointFiveDimensionCamera.transform.up * upwardForce, ForceMode.Impulse);
-        
-        //Instantiate muzzle flash, if you have one
-        /*
-        if(muzzleFlash != null)
+        //calculate direction from attack Point to target Point
+        for (var i = 0; i < 5; i++)
         {
-            Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
-        }*/
+            Vector3 directionWithoutSpread = targetPoint - allAttackPoints[i].position;
 
-        bulletsLeft--;
-        bulletsShot++;
+            //Calculate spread
+            float x = Random.Range(-spread, spread);
+            float y = Random.Range(-spread, spread);
 
-        //Invoke resetShot function (if not already invoked), with your timeBetweenShooting
-        if(allowInvoke)
-        {
-            Invoke("ResetShot", timeBetweenShooting);
-            allowInvoke = false;
+            //Calculate new direction with spread
+            Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Add Spread to Direction
 
-            //Add recoil to player
-            playerRigidBody.AddForce(-directionWithSpread.normalized * recoilForce, ForceMode.Impulse);
-        }
+            GameObject currentBullet = Instantiate(bullet, allAttackPoints[i].position, Quaternion.identity);
 
-        //If more than one bulletPer Tap make sure to repeat shoot function
-        if (bulletsShot < bulletsPerTap && bulletsLeft > 0)
-        {
-            Invoke("Shoot", timeBetweenShots);
+            //Rotate Bullet to shoot Direction
+            currentBullet.transform.forward = directionWithSpread.normalized;
+            //Use The Force Luke
+            currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
+            //For bouncing Grenades
+            currentBullet.GetComponent<Rigidbody>().AddForce(playerCamera.transform.up * upwardForce, ForceMode.Impulse);
+
+            //Instantiate muzzle flash, if you have one
+            /*
+            if(muzzleFlash != null)
+            {
+                Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+            }*/
+
+            bulletsLeft--;
+            bulletsShot++;
+
+            //Invoke resetShot function (if not already invoked), with your timeBetweenShooting
+            if(allowInvoke)
+            {
+                Invoke("ResetShot", timeBetweenShooting);
+                allowInvoke = false;
+
+                //Add recoil to player
+                playerRigidBody.AddForce(-directionWithSpread.normalized * recoilForce, ForceMode.Impulse);
+            }
+
+            //If more than one bulletPer Tap make sure to repeat shoot function
+            if (bulletsShot < bulletsPerTap && bulletsLeft > 0)
+            {
+                Invoke("Shoot", timeBetweenShots);
+            }
         }
     }
 

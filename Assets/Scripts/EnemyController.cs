@@ -7,6 +7,7 @@ public class EnemyController : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform player;
+    
     public LayerMask whatIsGround, whatIsPlayer;
 
     public float enemyHealth;
@@ -35,9 +36,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void Awake()
+    void Awake()
     {
-        player = GameObject.Find("RobotType2").transform;
+        player = GameObject.Find("Player Character").transform;
         agent = GetComponent<NavMeshAgent>();
     }
 

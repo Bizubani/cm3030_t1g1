@@ -2,38 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RigidbodyCharacterMovement : MonoBehaviour
+public class RobotTurretMovementScript : MonoBehaviour
 {
-    private Vector3 PlayerMovementInput;
-    private Vector2 PlayerMouseInput;
-    private float xRotation;
-
-    [SerializeField] private Transform CollisionToJumpDetection;
-    [SerializeField] private LayerMask CollisionToJumpMask;
-
+    [SerializeField] private CharacterController PlayerCharacter;
     [SerializeField] private Transform PlayerCameraTransform;
     [SerializeField] Camera PlayerCamera;
 
-    [SerializeField] private CharacterController PlayerCharacter;
+    public GameObject robotPlayer;
+    public GameObject robotTurret;
+
 
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float Sensitivity;
-    [SerializeField] private float Jumpforce;
-
-    [SerializeField] private float gravity;
-    Vector3 velocity;
-
     public float smoothTurnTime = 0.1f;
     public float smoothTurnVelocity;
-
-    private float resetStepOffset;
-
-    // Update is called once per frame
-    void Start()
-    {
-        PlayerCharacter = GetComponent<CharacterController>();
-        resetStepOffset = PlayerCharacter.stepOffset;
-    }
 
     private void Update()
     {
@@ -43,11 +24,11 @@ public class RigidbodyCharacterMovement : MonoBehaviour
     private void MovePlayer()
     {
         //Get Axis input, used to control movement via WASD keys.
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
         //Get Raw input for rotation of robot player.
-        float bodyRotationH = Input.GetAxisRaw("Horizontal");
-        float bodyRotationV = Input.GetAxisRaw("Vertical");
+        float bodyRotationH = Input.GetAxis("Horizontal");
+        float bodyRotationV = Input.GetAxis("Vertical");
 
         //Get the target rotation direction and rotate towards that as speed determined rotateSpeed variable.
         Vector3 targetDirection = new Vector3(bodyRotationH, 0f, bodyRotationV).normalized; 
@@ -60,40 +41,38 @@ public class RigidbodyCharacterMovement : MonoBehaviour
 
             Vector3 moveToCameraDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             PlayerCharacter.Move(moveToCameraDirection.normalized * moveSpeed * Time.deltaTime);
-        }
-
+            robotPlayer.transform.rotation = Quaternion.LookRotation(moveToCameraDirection);
         //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
         
+        }
         //Create an invisable Ray from the camera to the mouse cursor.
         //Also creates a new plane as the height of the robot turret, this is use to rotate the turret towards the mouse cursor.
-       /* Ray mouseRay = PlayerCamera.ScreenPointToRay(Input.mousePosition);
-        Plane p = new Plane(Vector3.up, robotTurret.transform.position);
-
+        Ray mouseRay = PlayerCamera.ScreenPointToRay(Input.mousePosition);
+        Plane p = new Plane(Vector3.up, Vector3.up, robotTurret.transform.position);
+        
         if(p.Raycast(mouseRay, out float hitDist))
         {
             Vector3 hitPoint = mouseRay.GetPoint(hitDist);
             robotTurret.transform.LookAt(hitPoint);
         }
-*/
 
-        //////////////
+          //Find the exact hit position using a raycast
+        //Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
+        RaycastHit hit;
 
-        ///Jump CC
-        if (Input.GetButtonDown("Jump") && PlayerCharacter.isGrounded)
+        //check if ray hits something
+        Vector3 targetPoint;
+
+        if(Physics.Raycast(ray, out hit))
         {
-            velocity.y = Mathf.Sqrt(Jumpforce * -2f * gravity);
+            targetPoint = hit.point.normalized;
+            robotTurret.transform.LookAt(hit.point);
+
+            //var targetRotation = Quaternion.LookRotation(targetPoint - robotTurret.transform.position);
+       
+            // Smoothly rotate towards the target point.
+            //robotTurret.transform.rotation = Quaternion.Slerp(robotTurret.transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
         }
- 
-        //transform.eulerAngles = new Vector3(0.0f, 0.0, 0.0f);
- 
-        if (PlayerCharacter.isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
- 
-        velocity.y += gravity * Time.deltaTime;
-        Vector3 move = transform.right * bodyRotationH + transform.forward * bodyRotationV;
- 
-        PlayerCharacter.Move(move * moveSpeed * Time.deltaTime + velocity * Time.deltaTime);
     }
 }
