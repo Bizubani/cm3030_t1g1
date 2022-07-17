@@ -42,37 +42,34 @@ public class RobotTurretMovementScript : MonoBehaviour
             Vector3 moveToCameraDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             PlayerCharacter.Move(moveToCameraDirection.normalized * moveSpeed * Time.deltaTime);
             robotPlayer.transform.rotation = Quaternion.LookRotation(moveToCameraDirection);
-        //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
+            //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
         
         }
         //Create an invisable Ray from the camera to the mouse cursor.
         //Also creates a new plane as the height of the robot turret, this is use to rotate the turret towards the mouse cursor.
-        Ray mouseRay = PlayerCamera.ScreenPointToRay(Input.mousePosition);
-        Plane p = new Plane(Vector3.up, Vector3.up, robotTurret.transform.position);
+        // Ray mouseRay = PlayerCamera.ScreenPointToRay(Input.mousePosition);
+        // Plane p = new Plane(Vector3.up, Vector3.up, robotTurret.transform.position);
         
-        if(p.Raycast(mouseRay, out float hitDist))
-        {
-            Vector3 hitPoint = mouseRay.GetPoint(hitDist);
-            robotTurret.transform.LookAt(hitPoint);
-        }
+        // if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+
+        // if(p.Raycast(mouseRay, out float hitDist))
+        // {
+        //     Vector3 hitPoint = mouseRay.GetPoint(hitDist);
+        //     robotTurret.transform.LookAt(hitPoint);
+        // }
 
           //Find the exact hit position using a raycast
-        //Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        // Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
         RaycastHit hit;
 
-        //check if ray hits something
-        Vector3 targetPoint;
-
         if(Physics.Raycast(ray, out hit))
         {
-            targetPoint = hit.point.normalized;
-            robotTurret.transform.LookAt(hit.point);
-
-            //var targetRotation = Quaternion.LookRotation(targetPoint - robotTurret.transform.position);
-       
-            // Smoothly rotate towards the target point.
-            //robotTurret.transform.rotation = Quaternion.Slerp(robotTurret.transform.rotation, targetRotation, moveSpeed * Time.deltaTime);
+            // Debug.Log(hit.point);
+            // if(hit.point.x > -25)
+            // {
+                robotTurret.transform.LookAt(hit.point);
+            // }
         }
     }
 }
