@@ -17,8 +17,8 @@ TagManager:
   - 
   - ThisIsGround
   - ThisIsPlayer
-  - 
-  - 
+  - ThisIsEnemy
+  - ThisIsPostProcessing
   - 
   - 
   - 
