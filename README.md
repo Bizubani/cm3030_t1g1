@@ -1,4 +1,6 @@
 # GameDevGame
+Updates
+Added Real Time Baking of Levels(Maybe I like saying that to much, RealTime)
 
 Roberto Prototype - Project URZA Notes
 Instructions:
