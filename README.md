@@ -24,6 +24,7 @@ Instructions:
 - Open it via Unity Hub (It will take some time to load the first time)
 - You may notice that after some time a plugin may pop up, don't close it just leave it be, the project will load with no problem.
 - The default project after the project is loaded should be removed AFTER you add a scene from the "scene/s" file (There should be a main menu and The actual game)
+- There is a companion file that needs to be unzipped, it is using 7z compression, after extracting it move the file to the main companion folder.
 
 Stuff To check if Materials are not Loading:
 - Go to package manager in Windows and Install URP, TextMeshPro, and Shader Graph.
