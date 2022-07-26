@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4380556542219278255}
   - component: {fileID: 821070624812259338}
   - component: {fileID: 3207108480987147456}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Project Urza Map Google minimap Sample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3999491532616764693}
-  m_LocalRotation: {x: -0.49998945, y: 0.50001925, z: -0.5000001, w: 0.49999115}
+  m_LocalRotation: {x: -0.4999913, y: 0.50001746, z: -0.49999997, w: 0.49999133}
   m_LocalPosition: {x: -44.5, y: -248, z: -322.1}
   m_LocalScale: {x: 31, y: 31, z: 31}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.002, y: 90.00101, z: -89.999}
 --- !u!33 &821070624812259338
 MeshFilter:
   m_ObjectHideFlags: 0

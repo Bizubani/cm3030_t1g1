@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RobotTurretMovementScript : MonoBehaviour
 {
-    [SerializeField] private CharacterController PlayerCharacter;
+    [SerializeField] private Rigidbody PlayerCharacter;
     [SerializeField] private Transform PlayerCameraTransform;
     [SerializeField] Camera PlayerCamera;
 
@@ -16,9 +17,29 @@ public class RobotTurretMovementScript : MonoBehaviour
     public float smoothTurnTime = 0.1f;
     public float smoothTurnVelocity;
 
+    private GameObject CM;
+    private void Start()
+    {
+        PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
+        PlayerCameraTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
+        PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+    }
+
     private void Update()
     {
-        MovePlayer();
+        try 
+        {
+            CM = GameObject.Find("Character Menu");
+
+            if (CM.activeSelf)
+            {
+
+            }
+        }
+        catch (Exception e) 
+        {
+            MovePlayer();
+        }   
     }
 
     private void MovePlayer()
@@ -40,7 +61,8 @@ public class RobotTurretMovementScript : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveToCameraDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            PlayerCharacter.Move(moveToCameraDirection.normalized * moveSpeed * Time.deltaTime);
+
+            // PlayerCharacter.Move(moveToCameraDirection.normalized * moveSpeed * Time.deltaTime);
             robotPlayer.transform.rotation = Quaternion.LookRotation(moveToCameraDirection);
             //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
         

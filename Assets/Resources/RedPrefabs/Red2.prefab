@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6548787787807791901}
   - component: {fileID: 6866704645792729944}
   - component: {fileID: 2525101005690923379}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ExitPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 6001608625882045961}
   - component: {fileID: 2515675170430258854}
   - component: {fileID: 4316908489107575492}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 6959103662267226197}
   - component: {fileID: 2389040432302889509}
   - component: {fileID: 7819505767556204197}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -291,7 +291,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1622168209867769000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Red2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6398305784061536832}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 3017280934820226061}
   - component: {fileID: 4266142350499427148}
   - component: {fileID: 3965016686404632458}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +455,7 @@ GameObject:
   - component: {fileID: 6152296854541809696}
   - component: {fileID: 3228754387312077118}
   - component: {fileID: 7912187330110254933}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 3342441543331926240}
   - component: {fileID: 9175459964729579301}
   - component: {fileID: 6033023249253538281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnterancePlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

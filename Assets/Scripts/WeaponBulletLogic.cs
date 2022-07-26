@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 
 public class WeaponBulletLogic : MonoBehaviour
@@ -36,6 +37,8 @@ public class WeaponBulletLogic : MonoBehaviour
     //bug fixing
     public bool allowInvoke = true;
 
+    private GameObject CM;
+
     public void Awake()
     {
         //make sure magazine is full
@@ -43,16 +46,35 @@ public class WeaponBulletLogic : MonoBehaviour
         readyToShoot = true;
     }
 
+    private void Start()
+    {
+        playerRigidBody = GameObject.Find("Player Character").GetComponent<Rigidbody>();
+        playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        ammunitionDisplay = GameObject.Find("AmmoCountText").GetComponent<TextMeshProUGUI>();
+    }
+
     // Update is called once per frame
     private void Update()
     {
-        MyInput();
-
-        //Set ammo display, if it exists
-        if(ammunitionDisplay != null)
+        try 
         {
-            ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " | " + magazineSize / bulletsPerTap);
+            CM = GameObject.Find("Character Menu");
+
+            if (CM.activeSelf)
+            {
+
+            }
         }
+        catch (Exception e) 
+        {
+            MyInput();
+
+            //Set ammo display, if it exists
+            if(ammunitionDisplay != null)
+            {
+                ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " | " + magazineSize / bulletsPerTap);
+            }
+        }   
     }
 
     private void MyInput()
@@ -111,13 +133,13 @@ public class WeaponBulletLogic : MonoBehaviour
         }
 
         //calculate direction from attack Point to target Point
-        for (var i = 0; i < 5; i++)
+        for (var i = 0; i < allAttackPoints.Count; i++)
         {
             Vector3 directionWithoutSpread = targetPoint - allAttackPoints[i].position;
 
             //Calculate spread
-            float x = Random.Range(-spread, spread);
-            float y = Random.Range(-spread, spread);
+            float x = UnityEngine.Random.Range(-spread, spread);
+            float y = UnityEngine.Random.Range(-spread, spread);
 
             //Calculate new direction with spread
             Vector3 directionWithSpread = directionWithoutSpread + new Vector3(x, y, 0); //Add Spread to Direction

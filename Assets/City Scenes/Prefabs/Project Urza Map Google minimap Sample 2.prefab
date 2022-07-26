@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4030350050481979782}
   - component: {fileID: 18425139678662179}
   - component: {fileID: 2856833406273796841}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Project Urza Map Google minimap Sample 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

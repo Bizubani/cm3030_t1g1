@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Zombie Enemy
   - Bullet
+  - SpawnPoint
+  - Level
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - ThisIsPlayer
   - ThisIsEnemy
   - ThisIsPostProcessing
-  - 
-  - 
+  - ThisIsCompanion
+  - ThisIsCharacterMenu
   - 
   - 
   - 
