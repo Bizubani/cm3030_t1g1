@@ -6,17 +6,18 @@ public class CameraPosition : MonoBehaviour
 {
 
     Vector3 offset;
-    [SerializeField] GameObject robotPlayer;
+    private Camera camera1;
 
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position - robotPlayer.transform.position;
+        camera1 = Camera.main;
+        offset = camera1.transform.position - transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = robotPlayer.transform.position + offset;
+        camera1.transform.position = transform.position + offset;
     }
 }

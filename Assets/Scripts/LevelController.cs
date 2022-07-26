@@ -7,11 +7,12 @@ public class LevelController : MonoBehaviour
 {
     private GameObject[] levelSections;
     [SerializeField] int numberOfSections;
+    [SerializeField] GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        int biome = Random.Range(1, 4);
+        int biome = 2; // Random.Range(1, 4);
         numberOfSections = 4;
 
         if (biome == 1)
@@ -29,6 +30,7 @@ public class LevelController : MonoBehaviour
 
 
         GameObject section0 = Instantiate(levelSections[0], new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(player, new Vector3(0, 0, 0), Quaternion.identity);
         Vector3 nextSpawn = section0.transform.Find("SpawnPoint").position;
 
         for (int i = 0; i < numberOfSections; i++)
