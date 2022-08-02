@@ -156,6 +156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1589085243381913775}
   - component: {fileID: 2109444052841153044}
+  - component: {fileID: 5148020056380642210}
   m_Layer: 9
   m_Name: URZA TWO
   m_TagString: Untagged
@@ -199,6 +200,21 @@ MonoBehaviour:
   moveSpeed: 1
   smoothTurnTime: 0.1
   smoothTurnVelocity: 0
+  PlayerCursor: {fileID: 0}
+--- !u!136 &5148020056380642210
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109444052841153045}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.9
+  m_Height: 4.2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &2223889069931198506
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,14 +317,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2562843157529590320}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1.756, z: 0}
   m_LocalScale: {x: 0.10000001, y: 0.19999999, z: 0.20000002}
   m_Children:
   - {fileID: 7895606317507220903}
   m_Father: {fileID: 7381741757555054938}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &3234064572733339494
 GameObject:
   m_ObjectHideFlags: 0

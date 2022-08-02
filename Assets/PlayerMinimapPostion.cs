@@ -9,6 +9,6 @@ public class PlayerMinimapPostion : MonoBehaviour
 
     private void Update()
     {
-        transform.position = new Vector3(playerTarget.position.x,ItemHeight,playerTarget.position.z);;
+        transform.position = new Vector3(playerTarget.position.x,ItemHeight,playerTarget.position.z);
     }
 }

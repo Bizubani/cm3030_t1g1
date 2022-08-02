@@ -32,9 +32,8 @@ public class CompanionController : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
     public Transform projectileSpawn;
-    public List<Transform> enemy = new List<Transform>();
 
-
+    public List<Transform> EnemyObjects = new List<Transform>();
 
     //States
     public float sightRange, attackRange, patrolRange;
@@ -52,15 +51,8 @@ public class CompanionController : MonoBehaviour
         }
     }
 
-    void Awake()
+    void Start()
     {
-        GameObject enemyTemp = GameObject.Find("Enemies Section");
-
-        for(var i = 0; i < 5; i++)
-        {
-            enemy.Add(enemyTemp.gameObject.transform.GetChild(i));
-        }
-
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.GetComponent<Animator>().speed = Random.Range(minSpeed, MaxSpeed);
 
@@ -87,7 +79,7 @@ public class CompanionController : MonoBehaviour
                 freePatrol = true;
             }
 
-            if(!enemyInPatrolRange)
+            else if(!enemyInPatrolRange && !playerInSightRange)
             {
                 freePatrol = false;
             }
@@ -123,7 +115,7 @@ public class CompanionController : MonoBehaviour
                 CompanionHumanAnimator.SetBool(IsIdling, false);
                 CompanionHumanAnimator.SetBool(IsAttacking, true);
                 agent.speed = 0;
-                AttackPlayer();
+                AttackEnemy();
             }
             else
             {
@@ -179,70 +171,24 @@ public class CompanionController : MonoBehaviour
 
     }
 
-    private void AttackPlayer()
+    private void AttackEnemy()
     {
-        // for(var i = 0; i < enemy.Count; i++)
-        // {
-        //     float dist = Vector3.Distance(enemy[i].position, transform.position);
-        //     Debug.Log("MY DISTANCE: "+dist);
-        //     enemyDistance.Add(dist);
-        // }
-
-        // //Make sure enemy doesn't move
-        // for(var i = 0; i < enemy.Count; i++)
-        // {
-        //     for(var j = 0; j < enemy.Count; j++)
-        //     {
-        //         if(enemyDistance[i] < enemyDistance[j])
-        //         {
-        //             enemyIndex = i;
-        //         }
-        //     }
-        // }
-
-        // for(var i = 0; i < enemy.Count; i++)
-        // {
-        //     if(enemy[i].gameObject.tag != "Zombie Enemy")
-        //     {
-        //         StartCoroutine(RemoveCells());
-        //     }
-        //     else if (enemy[i].gameObject.tag == "Zombie Enemy")
-        //     {
-        //         if(enemy[i].gameObject.GetComponent<EnemyController>().enemyHealth >= 0)
-        //         {
-        //             agent.SetDestination(transform.position);
-                    
-        //             transform.LookAt(enemy[i].position);
-
-        //             Debug.Log("Attacking: " + enemy[i]);
-        //         }
-        //     }
-        // }
-
         float closestDistance = float.MaxValue;
         int closestIndex = 0;
-        for(int i = 0; i < enemy.Count; i++)
+        for(int i = 0; i < EnemyObjects.Count; i++)
         {
-            if(enemy[closestIndex].gameObject.GetComponent<EnemyController>().enemyHealth <= 0)
+            float dist = Vector3.Distance(transform.position, EnemyObjects[i].position);
+            if(dist < closestDistance)
             {
-                enemy[closestIndex] = null;
-                StartCoroutine(RemoveCells());
-            }
-            else
-            {
-                float dist = Vector3.Distance(transform.position, enemy[i].position);
-                if(dist < closestDistance)
-                {
-                    closestDistance = dist;
-                    closestIndex = i;
-                }
+                closestDistance = dist;
+                closestIndex = i;
             }
         }
 
         agent.SetDestination(transform.position);
-                    
-        transform.LookAt(enemy[closestIndex].position);
 
+        //Vector3 enemyPosition = new Vector3(0, EnemyObjects[closestIndex].position.y, 0); 
+        transform.LookAt(EnemyObjects[closestIndex].position);
 
         if(!alreadyAttacked)
         {
@@ -257,14 +203,6 @@ public class CompanionController : MonoBehaviour
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
-
-     private IEnumerator RemoveCells()
-     {
-         yield return 0;
- 
-        enemy.RemoveAll(null);
- 
-     }
 
     private void CompanionKilledEnemy()
     {

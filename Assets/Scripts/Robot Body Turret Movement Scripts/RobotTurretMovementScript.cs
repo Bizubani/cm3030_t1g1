@@ -18,11 +18,15 @@ public class RobotTurretMovementScript : MonoBehaviour
     public float smoothTurnVelocity;
 
     private GameObject CM;
+
+    public Transform PlayerCursor;
     private void Start()
     {
         PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         PlayerCameraTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
         PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        PlayerCursor = GameObject.Find("Player Cursor").GetComponent<Transform>();
+        Cursor.visible = false;
     }
 
     private void Update()
@@ -91,6 +95,7 @@ public class RobotTurretMovementScript : MonoBehaviour
             // if(hit.point.x > -25)
             // {
                 robotTurret.transform.LookAt(hit.point);
+                PlayerCursor.position = hit.point;
             // }
         }
     }

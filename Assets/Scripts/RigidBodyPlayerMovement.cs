@@ -62,6 +62,23 @@ public class RigidBodyPlayerMovement : MonoBehaviour
 
     public bool dashing;
 
+    // private PlayerInput playerInput;
+
+    // private void Awake()
+    // {
+    //     playerInput = new PlayerInput();
+    // }
+
+    // private void OnEnable()
+    // {
+    //     playerInput.Enable();
+    // }
+
+    // private void OnDisable()
+    // {
+    //     playerInput.Disable();
+    // }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();

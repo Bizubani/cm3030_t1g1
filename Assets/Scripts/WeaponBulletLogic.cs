@@ -22,6 +22,8 @@ public class WeaponBulletLogic : MonoBehaviour
     //Recoil
     public Rigidbody playerRigidBody;
     public float recoilForce;
+    public CameraShake cameraShake1;
+    public CameraShake cameraShake2;
 
     //Bools
     bool shooting, readyToShoot, reloading;
@@ -48,6 +50,8 @@ public class WeaponBulletLogic : MonoBehaviour
 
     private void Start()
     {
+        cameraShake1= GameObject.Find("CM vcam1").GetComponent<CameraShake>();
+        cameraShake2 = GameObject.Find("CM vcam2").GetComponent<CameraShake>();
         playerRigidBody = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         ammunitionDisplay = GameObject.Find("AmmoCountText").GetComponent<TextMeshProUGUI>();
@@ -113,6 +117,10 @@ public class WeaponBulletLogic : MonoBehaviour
 
     private void Shoot()
     {
+
+        StartCoroutine(cameraShake1.Shake(0.10f,0.3f));
+        StartCoroutine(cameraShake2.Shake(0.10f,0.3f));
+
         readyToShoot = false;
 
         //Find the exact hit position using a raycast

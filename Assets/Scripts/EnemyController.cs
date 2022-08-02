@@ -30,7 +30,8 @@ public class EnemyController : MonoBehaviour
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject projectile;
-
+    public Transform projectileSpawn;
+    
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
@@ -45,7 +46,28 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    void Awake()
+    private void OnTriggerEnter(Collider collisionInfo)
+    {
+        if(collisionInfo.GetComponent<Collider>().tag =="Bullet" && enemyDead == false && enemyHealth >= 0)
+        {
+            TakeDamage(1);
+            Destroy(collisionInfo.gameObject);
+            Debug.Log("Got Hit");
+        }
+    }
+
+    // void Awake()
+    // {
+    //     player = GameObject.Find("Player Character").transform;
+    //     agent = GetComponent<NavMeshAgent>();
+    //     agent.GetComponent<Animator>().speed = Random.Range(minSpeed, MaxSpeed);
+
+    //     float RandomDeathAnimation = Random.Range(0,10);
+    //     Debug.Log("My Random Number"+ RandomDeathAnimation);
+    //     ZombieEnemyAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
+    // }
+
+    private void Start()
     {
         player = GameObject.Find("Player Character").transform;
         agent = GetComponent<NavMeshAgent>();
@@ -162,8 +184,8 @@ public class EnemyController : MonoBehaviour
         {
             //Attack code here
             //Anything
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            Rigidbody rb = Instantiate(projectile, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
+            rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
             rb.AddForce(transform.up * 8f, ForceMode.Impulse);
 
             ///

@@ -847,14 +847,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d5c3d60b6427347bb427211827a3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 5864901743428434170, guid: c1f1234f576318c4989f79eeac069476, type: 3}
-  shootForce: 100
+  bullet: {fileID: 4284301300041170705, guid: 55502f9242276234fb552b3495093d93, type: 3}
+  shootForce: 0
   upwardForce: 0
   timeBetweenShooting: 0
-  spread: 5
+  spread: 0
   reloadTime: 5
-  timeBetweenShots: 0.1
-  magazineSize: 1000
+  timeBetweenShots: 0
+  magazineSize: 1500
   bulletsPerTap: 1
   allowButtonHold: 1
   playerRigidBody: {fileID: 0}

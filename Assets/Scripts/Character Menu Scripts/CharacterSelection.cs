@@ -27,6 +27,11 @@ public class CharacterSelection : MonoBehaviour
         }
     }
 
+    public void Update()
+    {
+        Cursor.visible = true;
+    }
+
     public void NextCharacter()
     {
         characters[selectedCharacter].SetActive(false);
