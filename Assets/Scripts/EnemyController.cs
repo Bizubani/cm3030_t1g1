@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private string IsWalking = "IsWalking";
     [SerializeField] private string IsAttacking = "IsAttacking";
     [SerializeField] private string IsDead = "IsDead";
+
+    private GameObject CM;
 
     public NavMeshAgent agent;
     public Transform player;
@@ -35,6 +38,8 @@ public class EnemyController : MonoBehaviour
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+
+    public GameObject DeathExplosion;
 
     void OnCollisionEnter (Collision collisionInfo)
     {
@@ -71,63 +76,75 @@ public class EnemyController : MonoBehaviour
     {
         player = GameObject.Find("Player Character").transform;
         agent = GetComponent<NavMeshAgent>();
-        agent.GetComponent<Animator>().speed = Random.Range(minSpeed, MaxSpeed);
+        agent.GetComponent<Animator>().speed = UnityEngine.Random.Range(minSpeed, MaxSpeed);
 
-        float RandomDeathAnimation = Random.Range(0,10);
+        float RandomDeathAnimation = UnityEngine.Random.Range(0,10);
         Debug.Log("My Random Number"+ RandomDeathAnimation);
         ZombieEnemyAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
     }
 
     private void Update()
     {
-        //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if (enemyHealth <= 0 && enemyDead == false)
+        try 
         {
-            PlayerKilledEnemy();
+            CM = GameObject.Find("Menu");
+
+            if (CM.activeSelf)
+            {
+
+            }
         }
-        else if (enemyHealth >= 0 && enemyDead == false)
+        catch (Exception e) 
         {
-            if(!playerInSightRange && !playerInAttackRange)
-            {
-                Debug.Log("Enemy is Walking");
-                ZombieEnemyAnimator.SetBool(IsRunning, false);
-                ZombieEnemyAnimator.SetBool(IsIdling, false);
-                ZombieEnemyAnimator.SetBool(IsAttacking, false);
-                ZombieEnemyAnimator.SetBool(IsWalking, true);
-                agent.speed = Random.Range(minSpeed, MaxSpeed)*1;
-                Patroling();
-            }
+            //Check for sight and attack range
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-            else if(playerInSightRange && !playerInAttackRange)
+            if (enemyHealth <= 0 && enemyDead == false)
             {
-                Debug.Log("Enemy is Walking");
-                ZombieEnemyAnimator.SetBool(IsIdling, false);
-                ZombieEnemyAnimator.SetBool(IsWalking, false);
-                ZombieEnemyAnimator.SetBool(IsAttacking, false);
-                ZombieEnemyAnimator.SetBool(IsRunning, true);
-                agent.speed = Random.Range(minSpeed, MaxSpeed)*5;
-                ChasePlayer();
+                PlayerKilledEnemy();
             }
+            else if (enemyHealth >= 0 && enemyDead == false)
+            {   
+                if(!playerInSightRange && !playerInAttackRange)
+                {
+                    Debug.Log("Enemy is Walking");
+                    ZombieEnemyAnimator.SetBool(IsRunning, false);
+                    ZombieEnemyAnimator.SetBool(IsIdling, false);
+                    ZombieEnemyAnimator.SetBool(IsAttacking, false);
+                    ZombieEnemyAnimator.SetBool(IsWalking, true);
+                    agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*1 * Time.timeScale;
+                    Patroling();
+                }
 
-            else if(playerInAttackRange && playerInSightRange)
-            {
-                ZombieEnemyAnimator.SetBool(IsRunning, false);
-                ZombieEnemyAnimator.SetBool(IsWalking, false);
-                ZombieEnemyAnimator.SetBool(IsIdling, false);
-                ZombieEnemyAnimator.SetBool(IsAttacking, true);
-                agent.speed = 0;
-                AttackPlayer();
-            }
-            else
-            {
-                ZombieEnemyAnimator.SetBool(IsRunning, false);
-                ZombieEnemyAnimator.SetBool(IsWalking, false);
-                ZombieEnemyAnimator.SetBool(IsAttacking, false);
-                ZombieEnemyAnimator.SetBool(IsIdling, true);
-                agent.speed = 0;
+                else if(playerInSightRange && !playerInAttackRange)
+                {
+                    Debug.Log("Enemy is Walking");
+                    ZombieEnemyAnimator.SetBool(IsIdling, false);
+                    ZombieEnemyAnimator.SetBool(IsWalking, false);
+                    ZombieEnemyAnimator.SetBool(IsAttacking, false);
+                    ZombieEnemyAnimator.SetBool(IsRunning, true);
+                    agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*5 * Time.timeScale;
+                    ChasePlayer();
+                }
+
+                else if(playerInAttackRange && playerInSightRange)
+                {
+                    ZombieEnemyAnimator.SetBool(IsRunning, false);
+                    ZombieEnemyAnimator.SetBool(IsWalking, false);
+                    ZombieEnemyAnimator.SetBool(IsIdling, false);
+                    ZombieEnemyAnimator.SetBool(IsAttacking, true);
+                    agent.speed = 0;
+                    AttackPlayer();
+                }
+                else
+                {
+                    ZombieEnemyAnimator.SetBool(IsRunning, false);
+                    ZombieEnemyAnimator.SetBool(IsWalking, false);
+                    ZombieEnemyAnimator.SetBool(IsAttacking, false);
+                    ZombieEnemyAnimator.SetBool(IsIdling, true);
+                    agent.speed = 0;
+                }
             }
         }
 
@@ -158,8 +175,8 @@ public class EnemyController : MonoBehaviour
     private void SearchWalkPoint()
     {
         //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float randomZ = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
+        float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + randomX , transform.position.y, transform.position.z + randomZ);
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
@@ -227,7 +244,8 @@ public class EnemyController : MonoBehaviour
 
     private void DestroyEnemy()
     {
-        Destroy(gameObject,60);
+        Destroy(gameObject,10);
+        Instantiate(DeathExplosion, transform.position, Quaternion.identity);
     }
 
     private void OnDrawGizmosSelected()

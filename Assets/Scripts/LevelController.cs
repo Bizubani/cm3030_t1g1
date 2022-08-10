@@ -8,21 +8,25 @@ public class LevelController : MonoBehaviour
     private GameObject[] levelSections;
     [SerializeField] int numberOfSections;
     GameObject gameLevel;
+    public int levelNumber;
 
     // Start is called before the first frame update
     void Awake()
     {
-        int biome = Random.Range(3,3);
+        GenerateLevel(levelNumber);
+    }
 
-        if (biome == 1)
+    public void GenerateLevel(int biome)
+    {
+        if (biome == 0)
         {
             levelSections = Resources.LoadAll<GameObject>("RedPrefabs");
         }
-        if (biome == 2)
+        if (biome == 1)
         {
             levelSections = Resources.LoadAll<GameObject>("GreenPrefabs");
         }
-        if (biome == 3)
+        if (biome == 2)
         {
             levelSections = Resources.LoadAll<GameObject>("BluePrefabs");
         }
@@ -41,7 +45,14 @@ public class LevelController : MonoBehaviour
 
             grnSection.transform.parent = gameLevel.transform;
         }
+    }
 
+    public void DestroyAllLevels()
+    {
+        foreach (Transform child in transform) 
+        {
+            GameObject.Destroy(child.gameObject);
+        }
     }
 
     // Update is called once per frame

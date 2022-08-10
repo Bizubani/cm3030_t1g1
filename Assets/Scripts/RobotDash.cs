@@ -81,6 +81,7 @@ public class RobotDash : MonoBehaviour
         }
 
         delayedForceToApply = forceToApply;
+
         Invoke(nameof(DelayedDashForce), 0.025f);
         Invoke(nameof(ResetDash), dashDuration);
     }
@@ -102,9 +103,9 @@ public class RobotDash : MonoBehaviour
         RBPM.dashing = false;
 
         if(disableGravity)
-            {
-                rb.useGravity = true;
-            }
+        {
+            rb.useGravity = true;
+        }
     }
 
     private Vector3 GetDirection(Transform forwardTransform)

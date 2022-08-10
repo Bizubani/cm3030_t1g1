@@ -18,11 +18,6 @@ public class RobotDashTrail : MonoBehaviour
     private bool isTrailActive;
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
 
-    void Start()
-    {
-        rotationToSpawn = GameObject.Find("Turret").GetComponent<Transform>();
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -47,7 +42,7 @@ public class RobotDashTrail : MonoBehaviour
             for(int i=0; i < skinnedMeshRenderers.Length; i++)
             {
                 GameObject gObj = new GameObject();
-                gObj.transform.SetPositionAndRotation(postionToSpawn.position,  new Quaternion(rotationToSpawn.rotation.x, rotationToSpawn.rotation.y , rotationToSpawn.rotation.z + 45, 1));
+                gObj.transform.SetPositionAndRotation(postionToSpawn.position,  new Quaternion(rotationToSpawn.rotation.x, 0 , rotationToSpawn.rotation.z, 1));
                 MeshRenderer mr = gObj.AddComponent<MeshRenderer>();
                 MeshFilter mf = gObj.AddComponent<MeshFilter>();
 

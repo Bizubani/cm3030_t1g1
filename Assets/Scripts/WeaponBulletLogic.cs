@@ -13,6 +13,7 @@ public class WeaponBulletLogic : MonoBehaviour
     public float shootForce, upwardForce;
     
     //Gun Stats
+    [Header("GUN STATS")]
     public float timeBetweenShooting, spread, reloadTime, timeBetweenShots;
     public int magazineSize, bulletsPerTap;
     public bool allowButtonHold;
@@ -20,10 +21,12 @@ public class WeaponBulletLogic : MonoBehaviour
     int bulletsLeft, bulletsShot;
 
     //Recoil
+    [Header("RECOIL")]
     public Rigidbody playerRigidBody;
     public float recoilForce;
     public CameraShake cameraShake1;
     public CameraShake cameraShake2;
+    public CameraShake audioListener1;
 
     //Bools
     bool shooting, readyToShoot, reloading;
@@ -33,6 +36,7 @@ public class WeaponBulletLogic : MonoBehaviour
     public List<Transform> allAttackPoints;
 
     //Graphics
+    [Header("GRAPHICS")]
     public GameObject muzzleFlash;
     public TextMeshProUGUI ammunitionDisplay;
 
@@ -40,6 +44,12 @@ public class WeaponBulletLogic : MonoBehaviour
     public bool allowInvoke = true;
 
     private GameObject CM;
+
+    //Audio
+    [Header("AUDIO")]
+    AudioSource audioSource;
+
+    private bool inCooldown;
 
     public void Awake()
     {
@@ -52,9 +62,14 @@ public class WeaponBulletLogic : MonoBehaviour
     {
         cameraShake1= GameObject.Find("CM vcam1").GetComponent<CameraShake>();
         cameraShake2 = GameObject.Find("CM vcam2").GetComponent<CameraShake>();
+        audioListener1 = GameObject.Find("Audio Listener").GetComponent<CameraShake>();
+
         playerRigidBody = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         ammunitionDisplay = GameObject.Find("AmmoCountText").GetComponent<TextMeshProUGUI>();
+
+        /////
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -62,7 +77,7 @@ public class WeaponBulletLogic : MonoBehaviour
     {
         try 
         {
-            CM = GameObject.Find("Character Menu");
+            CM = GameObject.Find("Menu");
 
             if (CM.activeSelf)
             {
@@ -117,9 +132,16 @@ public class WeaponBulletLogic : MonoBehaviour
 
     private void Shoot()
     {
-
+        //If the Cooldown coroutine is not currently running, play the sound and start a new cooldown
+        if(!inCooldown)
+        {
+            //Play sound
+            ShootSound();
+            StartCoroutine(Cooldown());
+        }
         StartCoroutine(cameraShake1.Shake(0.10f,0.3f));
         StartCoroutine(cameraShake2.Shake(0.10f,0.3f));
+        StartCoroutine(audioListener1.Shake(0.10f,0.3f));
 
         readyToShoot = false;
 
@@ -206,5 +228,18 @@ public class WeaponBulletLogic : MonoBehaviour
     {
         bulletsLeft = magazineSize;
         reloading = false;
+    }
+
+    private IEnumerator Cooldown()
+    {
+        //Set the cooldown flag to true, wait for the cooldown time to pass, then turn the flag to false
+        inCooldown = true;
+        yield return new WaitForSeconds(timeBetweenShooting);
+        inCooldown = false;
+    }
+
+    private void ShootSound()
+    {
+        audioSource.Play();
     }
 }

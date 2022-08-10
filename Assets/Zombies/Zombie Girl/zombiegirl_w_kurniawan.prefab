@@ -1727,6 +1727,8 @@ MonoBehaviour:
   attackRange: 1.5
   playerInSightRange: 0
   playerInAttackRange: 0
+  DeathExplosion: {fileID: 1845955007268882, guid: d66acfea87f05d74688b0b12483d4d73,
+    type: 3}
 --- !u!1 &6370122913331967594
 GameObject:
   m_ObjectHideFlags: 0

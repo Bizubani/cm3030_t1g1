@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CompanionController1 : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class CompanionController1 : MonoBehaviour
     [SerializeField] private string IsWalking = "IsWalking";
     [SerializeField] private string IsAttacking = "IsAttacking";
     [SerializeField] private string IsDead = "IsDead";
+
+    private GameObject CM;
 
     public UnityEngine.AI.NavMeshAgent agent;
 
@@ -60,105 +63,117 @@ public class CompanionController1 : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        agent.GetComponent<Animator>().speed = Random.Range(minSpeed, MaxSpeed);
+        agent.GetComponent<Animator>().speed = UnityEngine.Random.Range(minSpeed, MaxSpeed);
 
-        float RandomDeathAnimation = Random.Range(0,10);
+        float RandomDeathAnimation = UnityEngine.Random.Range(0,10);
         Debug.Log("My Random Number"+ RandomDeathAnimation);
         CompanionHumanAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
     }
 
     private void Update()
     {
-        //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatToFollow);
-        playerInPatrolRange = Physics.CheckSphere(transform.position, patrolRange, whatToFollow);
-        enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsEnemy);
+        try 
+        {
+            CM = GameObject.Find("Menu");
 
-        if(enemyInAttackRange && playerInPatrolRange ||
-           enemyInAttackRange && idle)
-        {
-            attack = true;
-            chase = false;
-            idle = false;
-        }
-        else if(playerInPatrolRange)
-        {
-            if(playerInSightRange)
+            if (CM.activeSelf)
             {
-                setPatrol = true;
 
-                if(setPatrol != false)
+            }
+        }
+        catch (Exception e) 
+        {
+            //Check for sight and attack range
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatToFollow);
+            playerInPatrolRange = Physics.CheckSphere(transform.position, patrolRange, whatToFollow);
+            enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsEnemy);
+
+            if(enemyInAttackRange && playerInPatrolRange ||
+            enemyInAttackRange && idle)
+            {
+                attack = true;
+                chase = false;
+                idle = false;
+            }
+            else if(playerInPatrolRange)
+            {
+                if(playerInSightRange)
                 {
-                    patrol = true;
-                    chase = false;
-                    attack = false;
-                    idle = false;
+                    setPatrol = true;
+
+                    if(setPatrol != false)
+                    {
+                        patrol = true;
+                        chase = false;
+                        attack = false;
+                        idle = false;
+                    }
                 }
             }
-        }
-        else if(!playerInPatrolRange && !playerInSightRange && enemyInAttackRange ||
-                !playerInPatrolRange && !playerInSightRange && !enemyInAttackRange)
-        {
-            chase = true;
-            setPatrol = false;
-            patrol = false;
-            attack = false;
-            idle = false;
-        }
-        else if(idle)
-        {
-            idle = true;
-            attack = false;
-            chase = false;
-            setPatrol = false;
-            idle = false;
-        }
-
-        if (companionHealth <= 0 && companionDead == false)
-        {
-            CompanionKilledEnemy();
-        }
-        else if (companionHealth >= 0 && companionDead == false)
-        {
-            if(patrol)
+            else if(!playerInPatrolRange && !playerInSightRange && enemyInAttackRange ||
+                    !playerInPatrolRange && !playerInSightRange && !enemyInAttackRange)
             {
-                Debug.Log("Enemy is Walking");
-                CompanionHumanAnimator.SetBool(IsRunning, false);
-                CompanionHumanAnimator.SetBool(IsIdling, false);
-                CompanionHumanAnimator.SetBool(IsAttacking, false);
-                CompanionHumanAnimator.SetBool(IsWalking, true);
-                agent.speed = Random.Range(minSpeed, MaxSpeed)*1;
-                Patroling();
+                chase = true;
+                setPatrol = false;
+                patrol = false;
+                attack = false;
+                idle = false;
             }
-            
-            else if(chase)
+            else if(idle)
             {
-                Debug.Log("Enemy is Walking");
-                CompanionHumanAnimator.SetBool(IsIdling, false);
-                CompanionHumanAnimator.SetBool(IsWalking, false);
-                CompanionHumanAnimator.SetBool(IsAttacking, false);
-                CompanionHumanAnimator.SetBool(IsRunning, true);
-                agent.speed = Random.Range(minSpeed, MaxSpeed)*5;
-                ChasePlayer();
+                idle = true;
+                attack = false;
+                chase = false;
+                setPatrol = false;
+                idle = false;
             }
 
-            else if(attack)
+            if (companionHealth <= 0 && companionDead == false)
             {
-                Debug.Log("COVERING FIRE");
-                CompanionHumanAnimator.SetBool(IsRunning, false);
-                CompanionHumanAnimator.SetBool(IsWalking, false);
-                CompanionHumanAnimator.SetBool(IsIdling, false);
-                CompanionHumanAnimator.SetBool(IsAttacking, true);
-                agent.speed = 0;
-                AttackEnemy();
+                CompanionKilledEnemy();
             }
-            else
+            else if (companionHealth >= 0 && companionDead == false)
             {
-                CompanionHumanAnimator.SetBool(IsRunning, false);
-                CompanionHumanAnimator.SetBool(IsWalking, false);
-                CompanionHumanAnimator.SetBool(IsAttacking, false);
-                CompanionHumanAnimator.SetBool(IsIdling, true);
-                agent.speed = 0;
+                if(patrol)
+                {
+                    Debug.Log("Enemy is Walking");
+                    CompanionHumanAnimator.SetBool(IsRunning, false);
+                    CompanionHumanAnimator.SetBool(IsIdling, false);
+                    CompanionHumanAnimator.SetBool(IsAttacking, false);
+                    CompanionHumanAnimator.SetBool(IsWalking, true);
+                    agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*1;
+                    Patroling();
+                }
+                
+                else if(chase)
+                {
+                    Debug.Log("Enemy is Walking");
+                    CompanionHumanAnimator.SetBool(IsIdling, false);
+                    CompanionHumanAnimator.SetBool(IsWalking, false);
+                    CompanionHumanAnimator.SetBool(IsAttacking, false);
+                    CompanionHumanAnimator.SetBool(IsRunning, true);
+                    agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*5;
+                    ChasePlayer();
+                }
+
+                else if(attack)
+                {
+                    Debug.Log("COVERING FIRE");
+                    CompanionHumanAnimator.SetBool(IsRunning, false);
+                    CompanionHumanAnimator.SetBool(IsWalking, false);
+                    CompanionHumanAnimator.SetBool(IsIdling, false);
+                    CompanionHumanAnimator.SetBool(IsAttacking, true);
+                    agent.speed = 0;
+                    AttackEnemy();
+                }
+                else
+                {
+                    CompanionHumanAnimator.SetBool(IsRunning, false);
+                    CompanionHumanAnimator.SetBool(IsWalking, false);
+                    CompanionHumanAnimator.SetBool(IsAttacking, false);
+                    CompanionHumanAnimator.SetBool(IsIdling, true);
+                    agent.speed = 0;
+                }
             }
         }
 
@@ -189,8 +204,8 @@ public class CompanionController1 : MonoBehaviour
     private void SearchWalkPoint()
     {
         //Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float randomZ = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
+        float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + randomX , transform.position.y, transform.position.z + randomZ);
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))

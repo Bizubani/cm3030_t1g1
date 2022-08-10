@@ -31,12 +31,12 @@ public class CinemachineCameraSwitcher : MonoBehaviour
     // // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
         {
             SwitchState();
         }
 
-        if(Input.GetKeyUp(KeyCode.Mouse0))
+        if(Input.GetKeyUp(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1))
         {
             SwitchState();
         }

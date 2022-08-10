@@ -15,66 +15,93 @@ public class WeaponWheelController : MonoBehaviour
     private RemoveWeapons removeWeapons;
     private int saveWeaponCase = -1;
 
+    private GameObject CM;
+
+    public GameSettings gameSettings;
+
+    AudioSource audioSource;
+    public AudioClip clip1;
+    public AudioClip clip2;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        try 
         {
-            weaponWheelSelected = !weaponWheelSelected;
-        }
+            CM = GameObject.Find("Menu");
 
-        if(weaponWheelSelected)
-        {
-            anim.SetBool("OpenWeaponWheel", true);
-        }
-        else
-        {
-            anim.SetBool("OpenWeaponWheel", false);
-        }
+            if (!CM.activeSelf)
+            {
 
-        switch(weaponID)
+            }
+        }
+        catch (Exception e) 
         {
-            case 0: //Nothing
-                if(saveWeaponCase < 0)
-                {
-                    selectedItem.sprite = noImage;
-                }
-                break;
-            case 1: //Weapon 1
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 0;
-                AssignWeapons(0);
-                break;
-            case 2: //Weapon 2
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 1;
-                AssignWeapons(1);
-                break;
-            case 3: //Weapon 3
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 2;
-                AssignWeapons(2);
-                break;
-            case 4: //Weapon 4
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 3;
-                AssignWeapons(3);
-                break;
-            case 5: //Weapon 5
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 4;
-                AssignWeapons(4);
-                break;
-            case 6: //Weapon 6
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 5;
-                AssignWeapons(5);
-                break;
-            case 7: //Weapon 7
-                Debug.Log("Weapon 1");
-                saveWeaponCase = 6;
-                AssignWeapons(6);
-                break;
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                weaponWheelSelected = !weaponWheelSelected;
+                audioSource.PlayOneShot(clip2,1f);
+            }
+
+            if(weaponWheelSelected)
+            {
+                anim.SetBool("OpenWeaponWheel", true);
+                gameSettings.timeSpeed = 0.1f;
+            }
+            else
+            {
+                anim.SetBool("OpenWeaponWheel", false);
+                gameSettings.timeSpeed = 1f;
+            }
+
+            switch(weaponID)
+            {
+                case 0: //Nothing
+                    if(saveWeaponCase < 0)
+                    {
+                        selectedItem.sprite = noImage;
+                    }
+                    break;
+                case 1: //Weapon 1
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 0;
+                    AssignWeapons(0);
+                    break;
+                case 2: //Weapon 2
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 1;
+                    AssignWeapons(1);
+                    break;
+                case 3: //Weapon 3
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 2;
+                    AssignWeapons(2);
+                    break;
+                case 4: //Weapon 4
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 3;
+                    AssignWeapons(3);
+                    break;
+                case 5: //Weapon 5
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 4;
+                    AssignWeapons(4);
+                    break;
+                case 6: //Weapon 6
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 5;
+                    AssignWeapons(5);
+                    break;
+                case 7: //Weapon 7
+                    Debug.Log("Weapon 1");
+                    saveWeaponCase = 6;
+                    AssignWeapons(6);
+                    break;
+            }
         }
     }
 

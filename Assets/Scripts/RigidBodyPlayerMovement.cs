@@ -95,7 +95,7 @@ public class RigidBodyPlayerMovement : MonoBehaviour
     {
         try 
         {
-            CM = GameObject.Find("Character Menu");
+            CM = GameObject.Find("Menu");
 
             if (CM.activeSelf)
             {

@@ -19,6 +19,9 @@ public class RobotTurretMovementScript : MonoBehaviour
 
     private GameObject CM;
 
+    Vector3 lastMousePosition;
+    AudioSource turretMove;
+
     public Transform PlayerCursor;
     private void Start()
     {
@@ -27,13 +30,15 @@ public class RobotTurretMovementScript : MonoBehaviour
         PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         PlayerCursor = GameObject.Find("Player Cursor").GetComponent<Transform>();
         Cursor.visible = false;
+
+        turretMove = gameObject.GetComponent<AudioSource>();
     }
 
     private void Update()
     {
         try 
         {
-            CM = GameObject.Find("Character Menu");
+            CM = GameObject.Find("Menu");
 
             if (CM.activeSelf)
             {
@@ -69,7 +74,6 @@ public class RobotTurretMovementScript : MonoBehaviour
             // PlayerCharacter.Move(moveToCameraDirection.normalized * moveSpeed * Time.deltaTime);
             robotPlayer.transform.rotation = Quaternion.LookRotation(moveToCameraDirection);
             //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
-        
         }
         //Create an invisable Ray from the camera to the mouse cursor.
         //Also creates a new plane as the height of the robot turret, this is use to rotate the turret towards the mouse cursor.
@@ -91,12 +95,10 @@ public class RobotTurretMovementScript : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit))
         {
-            // Debug.Log(hit.point);
-            // if(hit.point.x > -25)
-            // {
-                robotTurret.transform.LookAt(hit.point);
-                PlayerCursor.position = hit.point;
-            // }
+            robotTurret.transform.LookAt(hit.point);
+            PlayerCursor.position = hit.point;
+
+            turretMove.Play();
         }
     }
 }

@@ -12,6 +12,11 @@ public class NavRealTimeBaker : MonoBehaviour
 
     void Start()
     {
+        BakeLevel();
+    }
+
+    public void BakeLevel()
+    {
         for(int i = 0; i < navMeshBlocks.Length; i++)
         {
             try

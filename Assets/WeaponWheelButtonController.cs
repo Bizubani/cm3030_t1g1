@@ -11,10 +11,15 @@ public class WeaponWheelButtonController : MonoBehaviour
     public Image selectedItem;
     private bool selected = false;
     public Sprite icon;
+    public GameObject weaponWheel;
+
+    AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        audioSource = weaponWheel.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,6 +36,7 @@ public class WeaponWheelButtonController : MonoBehaviour
     {
         selected = true;
         WeaponWheelController.weaponID = id;
+        audioSource.Play();
     }
 
     public void Deselected()
@@ -50,5 +56,4 @@ public class WeaponWheelButtonController : MonoBehaviour
         anim.SetBool("Hover",false);
         itemText.text = "";
     }
-
 }
