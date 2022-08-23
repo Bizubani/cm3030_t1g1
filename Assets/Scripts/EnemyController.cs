@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour
 
     public NavMeshAgent agent;
     public Transform player;
+    public PlayerDeathController playerDeathController;
+    public bool playerIsDead = false;
     
     public LayerMask whatIsGround, whatIsPlayer;
 
@@ -34,12 +36,17 @@ public class EnemyController : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
     public Transform projectileSpawn;
+    public int enemyDamageStrength = 1;
     
     //States
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    public float despawnRange;
+    public bool playerInDespawnRange;
+
     public GameObject DeathExplosion;
+    public LootSpawner lootSpawner;
 
     void OnCollisionEnter (Collision collisionInfo)
     {
@@ -74,6 +81,8 @@ public class EnemyController : MonoBehaviour
 
     private void Start()
     {
+        playerDeathController = GameObject.Find("Player Character").GetComponent<PlayerDeathController>();
+        lootSpawner = GameObject.Find("Loot Spawner").GetComponent<LootSpawner>();
         player = GameObject.Find("Player Character").transform;
         agent = GetComponent<NavMeshAgent>();
         agent.GetComponent<Animator>().speed = UnityEngine.Random.Range(minSpeed, MaxSpeed);
@@ -96,9 +105,13 @@ public class EnemyController : MonoBehaviour
         }
         catch (Exception e) 
         {
+            getIfPlayerIsDead();
             //Check for sight and attack range
+            playerInDespawnRange = Physics.CheckSphere(transform.position, despawnRange, whatIsPlayer);
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
+
+            getIfActive();
 
             if (enemyHealth <= 0 && enemyDead == false)
             {
@@ -117,7 +130,7 @@ public class EnemyController : MonoBehaviour
                     Patroling();
                 }
 
-                else if(playerInSightRange && !playerInAttackRange)
+                else if(playerInSightRange && !playerInAttackRange && !playerIsDead)
                 {
                     Debug.Log("Enemy is Walking");
                     ZombieEnemyAnimator.SetBool(IsIdling, false);
@@ -128,7 +141,7 @@ public class EnemyController : MonoBehaviour
                     ChasePlayer();
                 }
 
-                else if(playerInAttackRange && playerInSightRange)
+                else if(playerInAttackRange && playerInSightRange && !playerIsDead)
                 {
                     ZombieEnemyAnimator.SetBool(IsRunning, false);
                     ZombieEnemyAnimator.SetBool(IsWalking, false);
@@ -147,8 +160,6 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log(enemyHealth);
     }
 
     private void Patroling()
@@ -200,10 +211,11 @@ public class EnemyController : MonoBehaviour
         if(!alreadyAttacked)
         {
             //Attack code here
+            playerDeathController.TakeDamage(enemyDamageStrength);
             //Anything
-            Rigidbody rb = Instantiate(projectile, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            // Rigidbody rb = Instantiate(projectile, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
+            // rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
+            // rb.AddForce(transform.up * 8f, ForceMode.Impulse);
 
             ///
             alreadyAttacked = true;
@@ -246,6 +258,28 @@ public class EnemyController : MonoBehaviour
     {
         Destroy(gameObject,10);
         Instantiate(DeathExplosion, transform.position, Quaternion.identity);
+        lootSpawner.spawnLoot(transform);
+    }
+
+    void getIfPlayerIsDead()
+    {
+        playerIsDead =  playerDeathController.isPlayerDead;
+    }
+
+    void getIfActive()
+    {
+        for(int i = 0; i < gameObject.transform.childCount; i++)
+        {
+            GameObject enemyChild = gameObject.transform.GetChild(i).gameObject;
+            if(!playerInDespawnRange)
+            {
+                enemyChild.SetActive(false);
+            }    
+            else if(playerInDespawnRange)
+            {
+                enemyChild.SetActive(true);
+            }
+        }    
     }
 
     private void OnDrawGizmosSelected()
@@ -254,6 +288,8 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, despawnRange);
     }
 }
 

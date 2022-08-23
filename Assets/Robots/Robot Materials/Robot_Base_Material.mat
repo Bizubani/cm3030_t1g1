@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Robot_Base_Material
-  m_Shader: {fileID: -6465566751694194690, guid: a96415fb4d8d70a4e8b4a848cba580da,
+  m_Shader: {fileID: -6465566751694194690, guid: 46b68462f9db08845bc376bf4a9b8145,
     type: 3}
   m_ShaderKeywords: _RECEIVE_SHADOWS_OFF
   m_LightmapFlags: 2
@@ -63,6 +63,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_51B6C352: 0.25
+    - Vector1_B14445E0: 0.3
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -85,7 +86,9 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_88D5862B: {r: 0, g: 0.36172757, b: 0.5411765, a: 0}
+    - Color_B7E5AA40: {r: 0, g: 0.043169975, b: 1, a: 1}
     - _BaseColor: {r: 0, g: 0.222212, b: 0.6509434, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.5019608, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

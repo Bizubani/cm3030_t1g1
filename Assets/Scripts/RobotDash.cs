@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RobotDash : MonoBehaviour
 {
@@ -28,17 +29,38 @@ public class RobotDash : MonoBehaviour
     [Header("Input")]
     public KeyCode dashKey = KeyCode.E;
 
+    private AudioSource DashSound;
+    public GameObject dashEffect;
+    public float dashStaminaAmount = 0;
+    public float dashStaminaAmountStart = 25;
+
+        
+    //public TextMeshProUGUI playerDashText;
+    public Slider playerDashSlider;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         RBPM = GetComponent<RigidBodyPlayerMovement>();
+
+        DashSound = GetComponent<AudioSource>();
+        dashStaminaAmount = dashStaminaAmountStart;
+        updateDash();
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(dashKey))
+        if(Input.GetKeyDown(dashKey) && dashStaminaAmount > 5)
         {
             Dash();
+            DashSound.Play();
+            Instantiate(dashEffect,transform.position,Quaternion.identity);
+            updateDash();
+        }
+        
+        if(dashStaminaAmount < dashStaminaAmountStart)
+        {
+            StartCoroutine(DashRegenerate());
         }
 
         if(dashCdTimer > 0)
@@ -59,6 +81,7 @@ public class RobotDash : MonoBehaviour
         }
 
         RBPM.dashing = true;
+        dashStaminaAmount -= 5f;
 
         Transform forwardTransform;
 
@@ -130,5 +153,17 @@ public class RobotDash : MonoBehaviour
         }
 
         return direction.normalized;
+    }
+
+    void updateDash()
+    {
+        playerDashSlider.value = dashStaminaAmount/dashStaminaAmountStart * 10;
+    }
+
+    private IEnumerator DashRegenerate()
+    {
+        yield return new WaitForSeconds(1f);
+        dashStaminaAmount += 0.05f;
+        updateDash();
     }
 }

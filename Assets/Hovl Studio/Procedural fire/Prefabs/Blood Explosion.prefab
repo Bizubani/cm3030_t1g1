@@ -4852,7 +4852,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1169958064465980}
   serializedVersion: 6
   lengthInSec: 2
-  simulationSpeed: 1
+  simulationSpeed: 0.28
   stopAction: 0
   cullingMode: 3
   ringBufferMode: 0
@@ -5033,7 +5033,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.6229454, g: 1, b: 0, a: 0.2509804}
+      maxColor: {r: 0.6528621, g: 1, b: 0, a: 0.2509804}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14445,6 +14445,7 @@ GameObject:
   - component: {fileID: 198357973136645638}
   - component: {fileID: 199550515350852312}
   - component: {fileID: -2392182026655397984}
+  - component: {fileID: 5025195150509398820}
   m_Layer: 0
   m_Name: Blood Explosion
   m_TagString: Untagged
@@ -14660,7 +14661,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0.02714713, b: 0, a: 1}
+      maxColor: {r: 1, g: 0.5571457, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -15038,7 +15039,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 10
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -19237,13 +19238,13 @@ ParticleSystemRenderer:
   m_SortingOrder: 0
   m_RenderMode: 0
   m_SortMode: 0
-  m_MinParticleSize: 0
+  m_MinParticleSize: 0.05
   m_MaxParticleSize: 1
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
   m_SortingFudge: 0
-  m_NormalDirection: 1
+  m_NormalDirection: 0
   m_ShadowBias: 0
   m_RenderAlignment: 0
   m_Pivot: {x: 0, y: 0, z: 0}
@@ -19270,6 +19271,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcac3372682c93140bb3091af8a01c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructionTime: 5
+--- !u!114 &5025195150509398820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845955007268882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a5d6496f826ba4eac8ce3ccc63a6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDownSpeed: 2
+  minSize: 0
+  maxSize: 1
+  startSize: 1
 --- !u!1 &1988778204445182
 GameObject:
   m_ObjectHideFlags: 0
@@ -24124,6 +24142,7 @@ GameObject:
   - component: {fileID: 9214653766598861025}
   - component: {fileID: 7343173063723042459}
   - component: {fileID: 1462881594206472527}
+  - component: {fileID: 1688866682559751322}
   m_Layer: 0
   m_Name: SubEmitter0
   m_TagString: Untagged
@@ -26239,7 +26258,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    inWorldSpace: 0
+    inWorldSpace: 1
   InheritVelocityModule:
     enabled: 0
     m_Mode: 0
@@ -28903,8 +28922,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 0
   m_RenderMode: 2
   m_SortMode: 0
-  m_MinParticleSize: 0.1
-  m_MaxParticleSize: 0.5
+  m_MinParticleSize: 0.025
+  m_MaxParticleSize: 0.05
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -28924,6 +28943,22 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1688866682559751322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539468823658422705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a5d6496f826ba4eac8ce3ccc63a6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDownSpeed: 2
+  minSize: 0
+  maxSize: 0.1
+  startSize: 0.1
 --- !u!1 &1738403091740093192
 GameObject:
   m_ObjectHideFlags: 0
@@ -28935,6 +28970,7 @@ GameObject:
   - component: {fileID: 1719467937510387451}
   - component: {fileID: 4116718448614763033}
   - component: {fileID: 5791650879750513163}
+  - component: {fileID: 985350679427689153}
   m_Layer: 0
   m_Name: SubEmitter0 (1)
   m_TagString: Untagged
@@ -31050,7 +31086,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    inWorldSpace: 0
+    inWorldSpace: 1
   InheritVelocityModule:
     enabled: 0
     m_Mode: 0
@@ -33714,8 +33750,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 0
   m_RenderMode: 2
   m_SortMode: 0
-  m_MinParticleSize: 0.1
-  m_MaxParticleSize: 0.5
+  m_MinParticleSize: 0.025
+  m_MaxParticleSize: 0.05
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -33735,6 +33771,22 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &985350679427689153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738403091740093192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a5d6496f826ba4eac8ce3ccc63a6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDownSpeed: 1
+  minSize: 0
+  maxSize: 0.1
+  startSize: 0.1
 --- !u!1 &8425339166686818698
 GameObject:
   m_ObjectHideFlags: 0
@@ -33746,6 +33798,7 @@ GameObject:
   - component: {fileID: 3161134646001879768}
   - component: {fileID: 6659517865813194705}
   - component: {fileID: 4679688791622697829}
+  - component: {fileID: 9036282084497369647}
   m_Layer: 0
   m_Name: SubEmitter0 (2)
   m_TagString: Untagged
@@ -35861,7 +35914,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    inWorldSpace: 0
+    inWorldSpace: 1
   InheritVelocityModule:
     enabled: 0
     m_Mode: 0
@@ -38525,8 +38578,8 @@ ParticleSystemRenderer:
   m_SortingOrder: 0
   m_RenderMode: 2
   m_SortMode: 0
-  m_MinParticleSize: 0.05
-  m_MaxParticleSize: 0.5
+  m_MinParticleSize: 0.025
+  m_MaxParticleSize: 0.05
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
@@ -38546,3 +38599,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &9036282084497369647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8425339166686818698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a5d6496f826ba4eac8ce3ccc63a6ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleDownSpeed: 2
+  minSize: 0
+  maxSize: 0.1
+  startSize: 0.1

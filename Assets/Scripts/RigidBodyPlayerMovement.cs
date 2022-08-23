@@ -40,6 +40,7 @@ public class RigidBodyPlayerMovement : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
+    RigidbodyConstraints originalConstraints;
     private UnityEngine.AI.NavMeshAgent agent;
 
     ////////////
@@ -89,6 +90,9 @@ public class RigidBodyPlayerMovement : MonoBehaviour
         // characterController = GetComponent<CharacterController>();
 
         readyToJump = true;
+
+        originalConstraints = GetComponent<Rigidbody>().constraints;
+        rb.constraints = originalConstraints;
     }
 
     private void Update()
@@ -113,9 +117,14 @@ public class RigidBodyPlayerMovement : MonoBehaviour
 
             // handle drag
             if (grounded)
+            {
                 rb.drag = groundDrag;
+                rb.constraints = originalConstraints;
+            }
             else
+            {
                 rb.drag = 0;
+            }
         }  
 
     }

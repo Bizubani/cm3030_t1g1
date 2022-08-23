@@ -6,6 +6,9 @@ using TMPro;
 
 public class WeaponBulletLogic : MonoBehaviour
 {
+    //Gun Name
+    public String gunName;
+
     //bullet
     public GameObject bullet;
 
@@ -15,7 +18,7 @@ public class WeaponBulletLogic : MonoBehaviour
     //Gun Stats
     [Header("GUN STATS")]
     public float timeBetweenShooting, spread, reloadTime, timeBetweenShots;
-    public int magazineSize, bulletsPerTap;
+    public int magazineSize, bulletsPerTap, magazineAmount;
     public bool allowButtonHold;
     
     int bulletsLeft, bulletsShot;
@@ -24,8 +27,7 @@ public class WeaponBulletLogic : MonoBehaviour
     [Header("RECOIL")]
     public Rigidbody playerRigidBody;
     public float recoilForce;
-    public CameraShake cameraShake1;
-    public CameraShake cameraShake2;
+    public CameraShake cameraShake;
     public CameraShake audioListener1;
 
     //Bools
@@ -39,6 +41,8 @@ public class WeaponBulletLogic : MonoBehaviour
     [Header("GRAPHICS")]
     public GameObject muzzleFlash;
     public TextMeshProUGUI ammunitionDisplay;
+    public TextMeshProUGUI magazineDisplay;
+    public TextMeshProUGUI gunNameDisplay;
 
     //bug fixing
     public bool allowInvoke = true;
@@ -51,25 +55,41 @@ public class WeaponBulletLogic : MonoBehaviour
 
     private bool inCooldown;
 
-    public void Awake()
-    {
-        //make sure magazine is full
-        bulletsLeft = magazineSize;
-        readyToShoot = true;
-    }
+    //Settings
+    [Header("WEAPON SETTINGS")]
+    private WeaponSettings weaponSettings;
+    public int weaponNumber;
+    private bool weaponStatus = true;
 
     private void Start()
     {
-        cameraShake1= GameObject.Find("CM vcam1").GetComponent<CameraShake>();
-        cameraShake2 = GameObject.Find("CM vcam2").GetComponent<CameraShake>();
+        weaponSettings = GameObject.Find("Weapon Settings").GetComponent<WeaponSettings>();
+        //make sure magazine is full
+        weaponStatus = weaponSettings.updateWeaponStatus(weaponNumber);
+        if(weaponStatus == true)
+        {
+            bulletsLeft = magazineSize;
+            updateWeaponSettings();
+        }
+        else if(weaponStatus == false)
+        {
+            retrieveWeaponSettings();
+        }
+
+        readyToShoot = true;
+
+        audioSource = GetComponent<AudioSource>();
+
+        cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
         audioListener1 = GameObject.Find("Audio Listener").GetComponent<CameraShake>();
 
         playerRigidBody = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         playerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        ammunitionDisplay = GameObject.Find("AmmoCountText").GetComponent<TextMeshProUGUI>();
+        ammunitionDisplay = GameObject.Find("Ammo Count Text").GetComponent<TextMeshProUGUI>();
+        magazineDisplay = GameObject.Find("Mag Count Text").GetComponent<TextMeshProUGUI>();
+        gunNameDisplay = GameObject.Find("Gun Name Text").GetComponent<TextMeshProUGUI>();
 
         /////
-        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -92,6 +112,20 @@ public class WeaponBulletLogic : MonoBehaviour
             if(ammunitionDisplay != null)
             {
                 ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " | " + magazineSize / bulletsPerTap);
+                if(magazineAmount <= -1)
+                {
+                    magazineDisplay.SetText("NO AMMO");
+                }
+                else
+                {
+                    magazineDisplay.SetText(magazineAmount.ToString());
+                }
+                gunNameDisplay.SetText("- "+ gunName + " -");
+            }
+
+            if(Input.GetKeyDown(KeyCode.Tab) && !weaponStatus)
+            {
+                updateWeaponSettings();
             }
         }   
     }
@@ -109,24 +143,26 @@ public class WeaponBulletLogic : MonoBehaviour
         }
 
         //Reloading
-        if(Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading)
+        if(Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading && magazineAmount > -1)
         {
             Reload();
         }
         
         //Reload automatically when trying to shoot
-        if(readyToShoot && shooting && !reloading && bulletsLeft <= 0)
+        if(readyToShoot && shooting && !reloading && bulletsLeft <= 0 && magazineAmount > -1)
         {
             Reload();
         }
 
         //Shooting
-        if(readyToShoot && shooting && !reloading && bulletsLeft > 0)
+        if(readyToShoot && shooting && !reloading && bulletsLeft > 0 && magazineAmount > -1)
         {
             //Set bullets shot 0
             bulletsShot = 0;
 
             Shoot();
+            StartCoroutine(cameraShake.Shake(0.10f,0.3f));
+            StartCoroutine(audioListener1.Shake(0.10f,0.3f));
         }
     }
 
@@ -139,9 +175,6 @@ public class WeaponBulletLogic : MonoBehaviour
             ShootSound();
             StartCoroutine(Cooldown());
         }
-        StartCoroutine(cameraShake1.Shake(0.10f,0.3f));
-        StartCoroutine(cameraShake2.Shake(0.10f,0.3f));
-        StartCoroutine(audioListener1.Shake(0.10f,0.3f));
 
         readyToShoot = false;
 
@@ -191,6 +224,12 @@ public class WeaponBulletLogic : MonoBehaviour
             }*/
 
             bulletsLeft--;
+
+            if(bulletsLeft < 0)
+            {
+                bulletsLeft = 0;
+            }
+
             bulletsShot++;
 
             //Invoke resetShot function (if not already invoked), with your timeBetweenShooting
@@ -220,8 +259,16 @@ public class WeaponBulletLogic : MonoBehaviour
 
     private void Reload()
     {
-        reloading = true;
-        Invoke("ReloadFinished", reloadTime);
+        magazineAmount -= 1;
+        if(magazineAmount <= -1)
+        {
+            bulletsLeft = 0;
+        }
+        else
+        {
+            reloading = true;
+            Invoke("ReloadFinished", reloadTime);
+        }
     }
 
     private void ReloadFinished()
@@ -241,5 +288,17 @@ public class WeaponBulletLogic : MonoBehaviour
     private void ShootSound()
     {
         audioSource.Play();
+    }
+
+    private void retrieveWeaponSettings()
+    {
+        bulletsLeft = weaponSettings.retrieveCurrentAmmo(weaponNumber);
+        magazineAmount = weaponSettings.retrieveCurrentMagazine(weaponNumber);
+    }
+
+    private void updateWeaponSettings()
+    {
+        weaponSettings.updateCurrentAmmo(weaponNumber, bulletsLeft);
+        weaponSettings.updateCurrentMagazine(weaponNumber, magazineAmount);
     }
 }

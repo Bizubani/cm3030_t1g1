@@ -381,6 +381,7 @@ MonoBehaviour:
   smoothTurnTime: 0.1
   smoothTurnVelocity: 0
   PlayerCursor: {fileID: 0}
+  rayCastDistance: 0
 --- !u!136 &1325829000597321728
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -577,13 +578,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2832681997284112813}
-  m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
-  m_LocalPosition: {x: 0, y: 1.73, z: 1}
+  m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7312523234519721071}
   m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35, y: 0, z: 0}
 --- !u!108 &3439133955710670935
 Light:
   m_ObjectHideFlags: 0

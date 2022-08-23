@@ -848,6 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97d5c3d60b6427347bb427211827a3af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gunName: Dephaser Lazer
   bullet: {fileID: 4284301300041170705, guid: 55502f9242276234fb552b3495093d93, type: 3}
   shootForce: 0
   upwardForce: 0
@@ -857,16 +858,18 @@ MonoBehaviour:
   timeBetweenShots: 0
   magazineSize: 1500
   bulletsPerTap: 1
+  magazineAmount: 3
   allowButtonHold: 1
   playerRigidBody: {fileID: 0}
   recoilForce: 0
-  cameraShake1: {fileID: 0}
-  cameraShake2: {fileID: 0}
+  cameraShake: {fileID: 0}
+  audioListener1: {fileID: 0}
   playerCamera: {fileID: 0}
   allAttackPoints:
   - {fileID: 5834024802696019633}
   muzzleFlash: {fileID: 0}
   ammunitionDisplay: {fileID: 0}
+  gunNameDisplay: {fileID: 0}
   allowInvoke: 1
 --- !u!82 &-3960810233303605297
 AudioSource:

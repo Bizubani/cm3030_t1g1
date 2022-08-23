@@ -1011,6 +1011,36 @@ Transform:
   m_Father: {fileID: 6637223078450675170}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4716733328341502624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4404695758208156942}
+  m_Layer: 10
+  m_Name: SpecialAttackPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4404695758208156942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716733328341502624}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.893, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6657664489484974827}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4879315832478461625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1614,6 +1644,7 @@ Transform:
   - {fileID: 5704025843728496870}
   - {fileID: 2577317911167927300}
   - {fileID: 6624372742604854804}
+  - {fileID: 4404695758208156942}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1687,7 +1718,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0.05
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &6624372741631940418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1708,6 +1739,8 @@ MonoBehaviour:
   IsDead: IsDead
   agent: {fileID: 6624372741631940429}
   player: {fileID: 0}
+  playerDeathController: {fileID: 0}
+  playerIsDead: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -1720,15 +1753,20 @@ MonoBehaviour:
   walkPointRange: 5
   minSpeed: 0.5
   MaxSpeed: 2
-  timeBetweenAttacks: 1
-  projectile: {fileID: 0}
-  projectileSpawn: {fileID: 0}
+  timeBetweenAttacks: 2
+  projectile: {fileID: 6862489006072535683, guid: 81c5e628bdc9a854aaa5eabb551667dd,
+    type: 3}
+  projectileSpawn: {fileID: 4404695758208156942}
+  enemyDamageStrength: 1
   sightRange: 50
-  attackRange: 1.5
+  attackRange: 2
   playerInSightRange: 0
   playerInAttackRange: 0
+  despawnRange: 70
+  playerInDespawnRange: 0
   DeathExplosion: {fileID: 1845955007268882, guid: d66acfea87f05d74688b0b12483d4d73,
     type: 3}
+  lootSpawner: {fileID: 0}
 --- !u!1 &6370122913331967594
 GameObject:
   m_ObjectHideFlags: 0

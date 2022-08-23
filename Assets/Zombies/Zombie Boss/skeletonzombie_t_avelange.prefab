@@ -857,6 +857,8 @@ MonoBehaviour:
   IsDead: IsDead
   agent: {fileID: 4388312140374968785}
   player: {fileID: 0}
+  playerDeathController: {fileID: 0}
+  playerIsDead: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -876,6 +878,10 @@ MonoBehaviour:
   attackRange: 1.5
   playerInSightRange: 0
   playerInAttackRange: 0
+  despawnRange: 100
+  playerInDespawnRange: 0
+  DeathExplosion: {fileID: 1845955007268882, guid: d66acfea87f05d74688b0b12483d4d73,
+    type: 3}
 --- !u!195 &4388312140374968785
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -1309,7 +1309,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0.05
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!114 &3852134980079413034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1330,6 +1330,8 @@ MonoBehaviour:
   IsDead: IsDead
   agent: {fileID: 3852134980079413037}
   player: {fileID: 0}
+  playerDeathController: {fileID: 0}
+  playerIsDead: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -1345,10 +1347,16 @@ MonoBehaviour:
   timeBetweenAttacks: 5
   projectile: {fileID: 0}
   projectileSpawn: {fileID: 0}
+  enemyDamageStrength: 1
   sightRange: 50
   attackRange: 1.5
   playerInSightRange: 0
   playerInAttackRange: 0
+  despawnRange: 70
+  playerInDespawnRange: 0
+  DeathExplosion: {fileID: 1845955007268882, guid: d66acfea87f05d74688b0b12483d4d73,
+    type: 3}
+  lootSpawner: {fileID: 0}
 --- !u!1 &4164829647781472369
 GameObject:
   m_ObjectHideFlags: 0

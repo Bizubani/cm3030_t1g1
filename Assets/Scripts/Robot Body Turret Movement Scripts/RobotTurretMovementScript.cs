@@ -19,18 +19,22 @@ public class RobotTurretMovementScript : MonoBehaviour
 
     private GameObject CM;
 
-    Vector3 lastMousePosition;
+    private Vector3 tmpMousePosition;
     AudioSource turretMove;
 
     public Transform PlayerCursor;
+    public float rayCastDistance;
+
+    // public float threshold;
+    // public float cameraHeight = 10f;
     private void Start()
     {
         PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         PlayerCameraTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
         PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         PlayerCursor = GameObject.Find("Player Cursor").GetComponent<Transform>();
-        Cursor.visible = false;
 
+        tmpMousePosition = Input.mousePosition;
         turretMove = gameObject.GetComponent<AudioSource>();
     }
 
@@ -49,6 +53,18 @@ public class RobotTurretMovementScript : MonoBehaviour
         {
             MovePlayer();
         }   
+
+        if (tmpMousePosition != Input.mousePosition)
+        {
+            Debug.Log("Mouse moved");
+            tmpMousePosition = Input.mousePosition;
+        }
+        else
+        {
+            turretMove.Play();
+        }
+
+
     }
 
     private void MovePlayer()
@@ -95,10 +111,26 @@ public class RobotTurretMovementScript : MonoBehaviour
 
         if(Physics.Raycast(ray, out hit))
         {
-            robotTurret.transform.LookAt(hit.point);
-            PlayerCursor.position = hit.point;
-
-            turretMove.Play();
+            float dist = Vector3.Distance(hit.point, robotTurret.transform.position);
+            rayCastDistance = dist;
+            if(dist > 7.5)
+            {
+                robotTurret.transform.LookAt(hit.point);
+                PlayerCursor.position = hit.point;
+            }
         }
+
+        // if (Physics.Raycast(ray, out hit))
+        // {
+        //     Vector3 mousePos = hit.point;
+        //     Vector3 targetPos = (robotPlayer.transform.position + mousePos) / 2f;
+
+        //     targetPos.x = Mathf.Clamp(targetPos.x, -threshold + robotPlayer.transform.position.x, threshold + robotPlayer.transform.position.x);
+        //     targetPos.y = cameraHeight;
+        //     targetPos.z = Mathf.Clamp(targetPos.z, -threshold + robotPlayer.transform.position.z, threshold + robotPlayer.transform.position.z);
+
+        //     robotTurret.transform.LookAt(targetPos);
+        //     PlayerCursor.position = targetPos;
+        // }        
     }
 }

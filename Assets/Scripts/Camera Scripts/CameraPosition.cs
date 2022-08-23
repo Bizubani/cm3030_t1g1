@@ -11,12 +11,6 @@ public class CameraPosition : MonoBehaviour
     public bool cameraFollowPositionX = false;
     public bool cameraFollowCurrentPosition = false;
 
-    //Start is called before the first frame update
-    void Start()
-    {
-        Cursor.visible = true;
-    }
-
     private void Update()
     {
         if(cameraFollowPositionX == true)

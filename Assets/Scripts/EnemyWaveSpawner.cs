@@ -9,7 +9,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     public class Wave
     {
         public string name;
-        public Transform enemy;
+        public Transform[] enemy;
         public int count;
         public float rate;
     }
@@ -17,7 +17,8 @@ public class EnemyWaveSpawner : MonoBehaviour
     public Wave[] waves;
     private int nextWave = 0;
 
-    public Transform[] spawnPoints;
+    public GameObject spawnPoint;
+    private int activeNumber;
 
     public float timeBetweenWaves = 5f;
     public float waveCountdown;
@@ -28,12 +29,16 @@ public class EnemyWaveSpawner : MonoBehaviour
 
     private CompanionController1 getEnemies;
 
+    public LayerMask whatIsPlayer;
+    public float worldRange, spawnRange;
+    public bool playerInWorldRange, playerInSpawnRange;
+
     // Start is called before the first frame update
     void Start()
     {
         getEnemies = GameObject.Find("Ch35_nonPBR").GetComponent<CompanionController1>();
 
-        if(spawnPoints.Length == 0)
+        if(spawnPoint == null)
         {
             Debug.Log("No Points Available");    
         }
@@ -44,6 +49,8 @@ public class EnemyWaveSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //checkForActiveSpawn();
+                
         if(state == SpawnState.WAITING)
         {
             //Check if enemies are stil allibe
@@ -63,7 +70,7 @@ public class EnemyWaveSpawner : MonoBehaviour
         {
             if(state != SpawnState.SPAWNING)
             {
-                StartCoroutine(SpawnWave(waves[nextWave]));
+                StartCoroutine(SpawnWave(waves[nextWave],spawnPoint.transform));
             }
         }
         else
@@ -95,7 +102,7 @@ public class EnemyWaveSpawner : MonoBehaviour
         if(searchCountDown <= 0f)
         {
             searchCountDown = 1f;
-            if(GameObject.FindGameObjectWithTag("Zombie Enemy") == null)
+            if(spawnPoint.transform.childCount <= 0)
             {
                 getEnemies.CleanReferences();
                 return false;
@@ -104,14 +111,14 @@ public class EnemyWaveSpawner : MonoBehaviour
         return true;
     }
 
-    IEnumerator SpawnWave(Wave _wave)
+    IEnumerator SpawnWave(Wave _wave, Transform currentSpawnPoint)
     {
         state = SpawnState.SPAWNING;
 
         //Spawn
         for(int i = 0; i < _wave.count; i++)
         {
-            SpawnEnemy(_wave.enemy);
+            SpawnEnemy(_wave.enemy[Random.Range(0,_wave.enemy.Length-1)], currentSpawnPoint);
             yield return new WaitForSeconds(1f/_wave.rate);
         }
 
@@ -122,11 +129,34 @@ public class EnemyWaveSpawner : MonoBehaviour
         yield break;
     }
 
-    void SpawnEnemy(Transform _enemy)
+    void SpawnEnemy(Transform _enemy, Transform currentSpawnPoint)
     {
         //Spawn Enemy
         Debug.Log("Spawning Enemy" + _enemy.name);
-        Transform _SpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-        Instantiate(_enemy, transform.position, transform.rotation,transform);
+        Transform _SpawnPoint = spawnPoint.transform;
+        Instantiate(_enemy, currentSpawnPoint.position, currentSpawnPoint.rotation,currentSpawnPoint);
+    }
+
+    void checkForActiveSpawn()
+    {
+        playerInWorldRange = Physics.CheckSphere(spawnPoint.transform.position, worldRange, whatIsPlayer);
+        playerInSpawnRange = Physics.CheckSphere(spawnPoint.transform.position, spawnRange, whatIsPlayer);
+        
+        if(playerInWorldRange || playerInSpawnRange)
+        {
+            spawnPoint.SetActive(true);
+        }
+        else
+        {
+            spawnPoint.SetActive(false);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(spawnPoint.transform.position, worldRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(spawnPoint.transform.position, spawnRange);
     }
 }
