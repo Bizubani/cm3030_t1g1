@@ -26,17 +26,17 @@ public class CharacterPreviewShowcase : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.A) && itemWithKeys)
         {
-            transform.Rotate(Vector3.up, 10 * Time.deltaTime * speed);
+            transform.Rotate(Vector3.up, 10 * Time.unscaledDeltaTime  * speed);
         }
 
         else if(Input.GetKey(KeyCode.D) && itemWithKeys)
         {
-            transform.Rotate(Vector3.down, 10 * Time.deltaTime * speed);
+            transform.Rotate(Vector3.down, 10 * Time.unscaledDeltaTime  * speed);
         }
 
         else
         {
-            transform.Rotate(Vector3.down, 1 * Time.deltaTime * speed);
+            transform.Rotate(Vector3.down, 1 * Time.unscaledDeltaTime  * speed);
         }
     }
 
@@ -51,7 +51,7 @@ public class CharacterPreviewShowcase : MonoBehaviour
         {
             itemRotate = false;
             Vector3 myNewRotation = new Vector3(0,-1,0);
-            transform.Rotate(myNewRotation, 10 * Time.deltaTime * speed);
+            transform.Rotate(myNewRotation, 10 * Time.unscaledDeltaTime  * speed);
         }
     }
 }

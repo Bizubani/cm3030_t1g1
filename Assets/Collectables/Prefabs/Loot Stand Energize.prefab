@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1440576069307508512}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: 0.00027608871, y: -1.3055958, z: 0.08366394}
-  m_LocalScale: {x: 100, y: 100, z: 150}
+  m_LocalScale: {x: 50, y: 50, z: 100}
   m_Children: []
   m_Father: {fileID: 6768708442720166939}
   m_RootOrder: 0
@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2780497918834891827}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.088}
+  m_LocalPosition: {x: 0, y: -0.21, z: 0.088}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8038318071718099734}
@@ -303,6 +303,7 @@ MonoBehaviour:
     m_Bits: 512
   playerCollectableStats: {fileID: 0}
   playerDeathController: {fileID: 0}
+  weaponSettings: {fileID: 0}
   state: 4
   applyItem: 0
   collectedItem: 0
@@ -358,8 +359,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2942169244787322865}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.348, z: 0.086}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalPosition: {x: 0, y: 0, z: 0.086}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 6768708442720166939}
   m_RootOrder: 1

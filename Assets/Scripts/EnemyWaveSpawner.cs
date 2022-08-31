@@ -10,6 +10,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     {
         public string name;
         public Transform[] enemy;
+        private Transform[] enemiesInCollection;
         public int count;
         public float rate;
     }
@@ -104,7 +105,7 @@ public class EnemyWaveSpawner : MonoBehaviour
             searchCountDown = 1f;
             if(spawnPoint.transform.childCount <= 0)
             {
-                getEnemies.CleanReferences();
+                //getEnemies.CleanReferences();
                 return false;
             }
         }
@@ -118,11 +119,11 @@ public class EnemyWaveSpawner : MonoBehaviour
         //Spawn
         for(int i = 0; i < _wave.count; i++)
         {
-            SpawnEnemy(_wave.enemy[Random.Range(0,_wave.enemy.Length-1)], currentSpawnPoint);
+            Transform enemyChoice = _wave.enemy[Random.Range(0,_wave.enemy.Length-1)];
+            SpawnEnemy(enemyChoice, currentSpawnPoint);
+            //getEnemies.GetEnemies(enemyChoice);
             yield return new WaitForSeconds(1f/_wave.rate);
         }
-
-        getEnemies.GetEnemies();
 
         state = SpawnState.WAITING;
 
@@ -133,7 +134,7 @@ public class EnemyWaveSpawner : MonoBehaviour
     {
         //Spawn Enemy
         Debug.Log("Spawning Enemy" + _enemy.name);
-        Transform _SpawnPoint = spawnPoint.transform;
+        //Transform _SpawnPoint = spawnPoint.transform;
         Instantiate(_enemy, currentSpawnPoint.position, currentSpawnPoint.rotation,currentSpawnPoint);
     }
 
@@ -145,10 +146,12 @@ public class EnemyWaveSpawner : MonoBehaviour
         if(playerInWorldRange || playerInSpawnRange)
         {
             spawnPoint.SetActive(true);
+            state = SpawnState.COUNTING;
         }
         else
         {
             spawnPoint.SetActive(false);
+            state = SpawnState.WAITING;
         }
     }
 

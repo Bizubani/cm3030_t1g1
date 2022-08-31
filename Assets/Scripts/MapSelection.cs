@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MapSelection : MonoBehaviour
 {
     public GameObject[] levels;
-    public int activeLevel = 2;
+    public int activeLevel = 0;
     public int selectedLevel = 0;
     public GameObject MapMenu;
     private LevelController levelController;
     private NavRealTimeBaker navRealTimeBaker;
     private CharacterPreviewShowcase previewItem;
+    public TextMeshProUGUI levelText;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,8 @@ public class MapSelection : MonoBehaviour
                 levels[i].SetActive(false);
             }
         }
+
+        levelText.text = "Level: " + (selectedLevel + 1).ToString(); 
     }
 
     public void NextLevel()
@@ -35,6 +39,15 @@ public class MapSelection : MonoBehaviour
             selectedLevel = (selectedLevel + 1) % levels.Length;
             levels[selectedLevel].SetActive(true);
             previewItem.RotateToRotation(selectedLevel);
+            levelText.text = "Level: "+ (selectedLevel + 1).ToString(); 
+        }
+        else
+        {            
+            levels[selectedLevel].SetActive(false);
+            selectedLevel = (selectedLevel + 1) % levels.Length;
+            levels[selectedLevel].SetActive(true);
+            selectedLevel = (selectedLevel + 1) % levels.Length;
+            levelText.text = "Level: "+ (selectedLevel + 1).ToString(); 
         }
     }
 
@@ -52,6 +65,8 @@ public class MapSelection : MonoBehaviour
             }
             levels[selectedLevel].SetActive(true);
             previewItem.RotateToRotation(selectedLevel);
+
+            levelText.text = "Level: " + (selectedLevel + 1).ToString(); 
         }
     }
 
@@ -61,7 +76,7 @@ public class MapSelection : MonoBehaviour
         {
             levelController = GameObject.Find("Generated Level").GetComponent<LevelController>();
             levelController.DestroyAllLevels();
-            levelController.GenerateLevel(selectedLevel);
+            levelController.SwitchLevel(selectedLevel);
             navRealTimeBaker = GameObject.Find("Level Generator Baker").GetComponent<NavRealTimeBaker>();
             navRealTimeBaker.BakeLevel();
             activeLevel = selectedLevel;

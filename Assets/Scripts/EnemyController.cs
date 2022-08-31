@@ -15,6 +15,10 @@ public class EnemyController : MonoBehaviour
 
     private GameObject CM;
 
+    public bool isBoss = false;
+    public bool isRangedEnemy = false;
+    private PlayerCollectableStats playerCollectableStats;
+
     public NavMeshAgent agent;
     public Transform player;
     public PlayerDeathController playerDeathController;
@@ -53,20 +57,20 @@ public class EnemyController : MonoBehaviour
         if(collisionInfo.collider.tag =="Bullet" && enemyDead == false && enemyHealth >= 0)
         {
             TakeDamage(1);
-            Destroy(collisionInfo.gameObject);
+            // Destroy(collisionInfo.gameObject);
             Debug.Log("Got Hit");
         }
     }
 
-    private void OnTriggerEnter(Collider collisionInfo)
-    {
-        if(collisionInfo.GetComponent<Collider>().tag =="Bullet" && enemyDead == false && enemyHealth >= 0)
-        {
-            TakeDamage(1);
-            Destroy(collisionInfo.gameObject);
-            Debug.Log("Got Hit");
-        }
-    }
+    // private void OnTriggerEnter(Collider collisionInfo)
+    // {
+    //     if(collisionInfo.GetComponent<Collider>().tag =="Bullet" && enemyDead == false && enemyHealth >= 0)
+    //     {
+    //         TakeDamage(1);
+    //         Destroy(collisionInfo.gameObject);
+    //         Debug.Log("Got Hit");
+    //     }
+    // }
 
     // void Awake()
     // {
@@ -94,24 +98,14 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        try 
-        {
-            CM = GameObject.Find("Menu");
+        getIfPlayerIsDead();
+        //Check for sight and attack range
+        playerInDespawnRange = Physics.CheckSphere(transform.position, despawnRange, whatIsPlayer);
 
-            if (CM.activeSelf)
-            {
-
-            }
-        }
-        catch (Exception e) 
+        if(getIfActive() == true)
         {
-            getIfPlayerIsDead();
-            //Check for sight and attack range
-            playerInDespawnRange = Physics.CheckSphere(transform.position, despawnRange, whatIsPlayer);
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-            getIfActive();
 
             if (enemyHealth <= 0 && enemyDead == false)
             {
@@ -189,6 +183,17 @@ public class EnemyController : MonoBehaviour
         float randomZ = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
         float randomX = UnityEngine.Random.Range(-walkPointRange, walkPointRange);
 
+        int attackState = UnityEngine.Random.Range(1,5);
+
+        if(attackState > 3)
+        {
+            isRangedEnemy = true;
+        }
+        else if(attackState < 3)
+        {
+            isRangedEnemy = false;
+        }
+
         walkPoint = new Vector3(transform.position.x + randomX , transform.position.y, transform.position.z + randomZ);
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
         {
@@ -212,10 +217,15 @@ public class EnemyController : MonoBehaviour
         {
             //Attack code here
             playerDeathController.TakeDamage(enemyDamageStrength);
+            
             //Anything
-            // Rigidbody rb = Instantiate(projectile, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
-            // rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
-            // rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            if(isRangedEnemy)
+            {
+                attackRange = 10f;
+                Rigidbody rb = Instantiate(projectile, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
+                rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
+                rb.AddForce(transform.up * 8f, ForceMode.Impulse);
+            }
 
             ///
             alreadyAttacked = true;
@@ -256,6 +266,17 @@ public class EnemyController : MonoBehaviour
 
     private void DestroyEnemy()
     {
+        playerCollectableStats = GameObject.Find("Player Settings").GetComponent<PlayerCollectableStats>();
+
+        if(isBoss)
+        {
+            playerCollectableStats.addToBossesKilled(1);
+        }
+        else if(!isBoss)
+        {
+            playerCollectableStats.addToEnemiesKilled(1);
+        }
+
         Destroy(gameObject,10);
         Instantiate(DeathExplosion, transform.position, Quaternion.identity);
         lootSpawner.spawnLoot(transform);
@@ -266,20 +287,41 @@ public class EnemyController : MonoBehaviour
         playerIsDead =  playerDeathController.isPlayerDead;
     }
 
-    void getIfActive()
+    private bool getIfActive()
     {
-        for(int i = 0; i < gameObject.transform.childCount; i++)
-        {
-            GameObject enemyChild = gameObject.transform.GetChild(i).gameObject;
+        // for(int i = 0; i < gameObject.transform.childCount; i++)
+        // {
+        //     GameObject enemyChild = gameObject.transform.GetChild(i).gameObject;
+        //     if(!playerInDespawnRange)
+        //     {
+        //         enemyChild.SetActive(false);
+        //         return (false);
+        //     }    
+        //     else if(playerInDespawnRange)
+        //     {
+        //         enemyChild.SetActive(true);
+        //         return (true);
+        //     }
+        //     else
+        //     {
+        //         enemyChild.SetActive(false);
+        //         return (false);
+        //     }
+        // }    
+        // enemyChild.SetActive(false);
+        // return (false);
+
             if(!playerInDespawnRange)
             {
-                enemyChild.SetActive(false);
+                Destroy(gameObject);
+                return (false);
             }    
             else if(playerInDespawnRange)
             {
-                enemyChild.SetActive(true);
+                gameObject.SetActive(true);
+                return (true);
             }
-        }    
+            return (false);
     }
 
     private void OnDrawGizmosSelected()

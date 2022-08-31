@@ -14,21 +14,36 @@ public class CursorFeatures : MonoBehaviour
     // float rotationX = 0f;
  
     public float speed = 5f;
+    public bool isCursor2D = false;
+
+    void Start() 
+    {
+        Cursor.visible = false;
+    }
+   
     private void Update() 
     {
-        if(Input.GetKey(KeyCode.A))
+        if(isCursor2D)
         {
-            transform.Rotate(Vector3.up, 10 * Time.deltaTime * speed);
+            Vector2 mousePos = Input.mousePosition;
+            transform.position = new Vector2(mousePos.x, mousePos.y);
         }
-
-        else if(Input.GetKey(KeyCode.D))
-        {
-            transform.Rotate(Vector3.down, 10 * Time.deltaTime * speed);
-        }
-        
         else
         {
-            transform.Rotate(Vector3.down, 1 * Time.deltaTime * speed);
+            if(Input.GetKey(KeyCode.A))
+            {
+                transform.Rotate(Vector3.up, 10 * Time.deltaTime * speed);
+            }
+
+            else if(Input.GetKey(KeyCode.D))
+            {
+                transform.Rotate(Vector3.down, 10 * Time.deltaTime * speed);
+            }
+            
+            else
+            {
+                transform.Rotate(Vector3.down, 1 * Time.deltaTime * speed);
+            }
         }
         // rotationX += Input.GetAxis ("Mouse X") * sensitivityX;
         // rotationX = Mathf.Clamp (rotationX, minimumX, maximumX);

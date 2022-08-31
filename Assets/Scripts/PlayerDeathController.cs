@@ -20,6 +20,7 @@ public class PlayerDeathController : MonoBehaviour
     public GameObject Shield;
     [Header("Keybinds")]
     public KeyCode shieldKey = KeyCode.Q;
+    public KeyCode respawnKey = KeyCode.O;
     
     public TextMeshProUGUI playerHealthText;
     public Slider playerHealthSlider;
@@ -33,6 +34,8 @@ public class PlayerDeathController : MonoBehaviour
     public Light targetlight;
 
     public GameObject menu;
+
+    public Transform reviveSpawnPoint;
 
     ////
     public PlayerCollectableStats playerCollectableStats;
@@ -57,7 +60,9 @@ public class PlayerDeathController : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         playerCollectableStats = GetComponent<PlayerCollectableStats>();
+        reviveSpawnPoint = GameObject.Find("Spawn Point").GetComponent<Transform>();
 
+        transform.position = reviveSpawnPoint.position;
         rb = GetComponent<Rigidbody>();
 
         playerHealthStart = playerHealth;
@@ -69,6 +74,11 @@ public class PlayerDeathController : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(respawnKey))
+        {
+            playerHealth = 0;
+        }
+
         if(Input.GetKeyDown(shieldKey))
         {
             shieldActive = !shieldActive;
@@ -249,17 +259,33 @@ public class PlayerDeathController : MonoBehaviour
 
     public void SelfDestruct()
     {
-        rb.constraints = RigidbodyConstraints.FreezePosition;
+        //rb.constraints = RigidbodyConstraints.FreezePosition;
         isPlayerDead = true;
         Instantiate(DeathExplosion, transform.position, Quaternion.identity);
-        Destroy(robotBody.transform.GetChild(0).gameObject);
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        //Destroy(robotBody.transform.GetChild(0).gameObject);
         StartCoroutine(TriggerLoadingScreen());
+    }
+
+    public void revivePlayer(bool dead)
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        isPlayerDead = false;
+        if(playerHealth <= 0)
+        {
+            transform.position = reviveSpawnPoint.position;
+        }
+
+        if(dead)
+        {
+            playerHealth = playerHealthStart-1/5*playerHealthStart;
+        }
     }
 
     IEnumerator TriggerLoadingScreen()
     {
         yield return new WaitForSeconds(5f);
-
+        revivePlayer(true);
         menu.SetActive(true);
     }
 

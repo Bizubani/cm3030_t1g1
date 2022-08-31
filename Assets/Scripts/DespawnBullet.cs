@@ -8,6 +8,9 @@ public class DespawnBullet : MonoBehaviour
     public bool TriggerDelay = false;
     public float bulletDespawnDelayMin;
     public float bulletDespawnDelayMax;
+
+    public GameObject bulletExplosion;
+    public bool explodes = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +27,18 @@ public class DespawnBullet : MonoBehaviour
             TriggerDelay == false)
         {
             Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(explodes)
+        {
+            if(other.gameObject.tag == "Zombie Enemy")
+            {
+                Instantiate(bulletExplosion, transform.position, Quaternion.identity,transform);
+                Destroy(gameObject,1f);
+            }
         }
     }
 }

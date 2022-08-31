@@ -10,13 +10,14 @@ public class MainMenuNav : MonoBehaviour
     void Start()
     {
         OptionsMenu = GameObject.Find("Options Menu");
+        gameObject.SetActive(false);
         OptionsMenu.SetActive(false);
     }
 
-    public void PlayGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
+    // public void PlayGame()
+    // {
+    //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    // }
 
     public void QuitGame()
     {

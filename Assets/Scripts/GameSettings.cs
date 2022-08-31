@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public float timeSpeed = 1f;
+    private float timeSpeed = 1f;
     // Update is called once per frame
-    void Update()
+    void Start()
     {
-        Time.timeScale = timeSpeed;
+        timeManipulation(timeSpeed);
+    }
+
+    public void timeManipulation(float speed)
+    {
+        Time.timeScale = speed;
     }
 }

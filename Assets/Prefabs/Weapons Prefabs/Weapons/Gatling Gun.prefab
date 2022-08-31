@@ -154,9 +154,9 @@ MonoBehaviour:
   - {fileID: 2136173408433759858}
   muzzleFlash: {fileID: 0}
   ammunitionDisplay: {fileID: 0}
+  magazineDisplay: {fileID: 0}
   gunNameDisplay: {fileID: 0}
   allowInvoke: 1
-  weaponSettings: {fileID: 0}
   weaponNumber: 2
 --- !u!82 &2849405286003834665
 AudioSource:
@@ -167,7 +167,8 @@ AudioSource:
   m_GameObject: {fileID: 1253231824014996906}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 10fc9d4083a5c8348af0946d85101aed,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 32e8c536adc1ea241a1fa1e52f51db32, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5

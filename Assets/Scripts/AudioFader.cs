@@ -13,6 +13,7 @@ public class AudioFader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player Character").GetComponent<Transform>();
         audioSource = GetComponent<AudioSource>();
     }
 

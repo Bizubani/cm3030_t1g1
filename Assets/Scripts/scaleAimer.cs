@@ -14,12 +14,12 @@ public class scaleAimer : MonoBehaviour
     void Start()
     {
         robotTurretMovementScript = this.GetComponent<RobotTurretMovementScript>();
-        aimUI = GameObject.Find("Aim UI");
     }
 
     // Update is called once per frame
     void Update()
     {
+        aimUI = GameObject.Find("Aim UI");
         scaleChange = new Vector3(sizeX, sizeY, robotTurretMovementScript.rayCastDistance);
         aimUI.transform.localScale = scaleChange;
     }

@@ -110,7 +110,8 @@ public class RigidBodyPlayerMovement : MonoBehaviour
         {
             // ground check
             grounded = Physics.Raycast(groundCheck.position, Vector3.down, playerHeight * 1f + 0.5f, whatIsGround);
-            
+            // RaycastHit hit;
+            //grounded = Physics.SphereCast(groundCheck.position,  playerHeight * 1f + 0.5f,transform.down,out hit ,whatIsGround);
             // ySpeed += Physics.gravity.y * Time.deltaTime;
             MyInput();
             SpeedControl();
@@ -329,7 +330,7 @@ public class RigidBodyPlayerMovement : MonoBehaviour
                     agent.updateRotation = true;
                     agent.isStopped = false;
                 }
-                GetComponent<Rigidbody>().isKinematic = true;
+                GetComponent<Rigidbody>().isKinematic = false;
                 GetComponent<Rigidbody>().useGravity = false;
             }
         }

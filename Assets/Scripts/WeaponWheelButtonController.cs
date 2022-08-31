@@ -8,10 +8,16 @@ public class WeaponWheelButtonController : MonoBehaviour
     private Animator anim;
     public string itemName;
     public TextMeshProUGUI itemText;
+
+    public TextMeshProUGUI CurrentBullets;
+    public TextMeshProUGUI CurrentMagazine;
+
     public Image selectedItem;
     private bool selected = false;
     public Sprite icon;
     public GameObject weaponWheel;
+
+    private WeaponSettings weaponSettings;
 
     AudioSource audioSource;
 
@@ -20,6 +26,8 @@ public class WeaponWheelButtonController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         audioSource = weaponWheel.GetComponent<AudioSource>();
+
+        weaponSettings = GameObject.Find("Weapon Settings").GetComponent<WeaponSettings>();
     }
 
     // Update is called once per frame
@@ -49,6 +57,8 @@ public class WeaponWheelButtonController : MonoBehaviour
     {
         anim.SetBool("Hover",true);
         itemText.text = itemName;
+        CurrentBullets.text = weaponSettings.retrieveCurrentAmmo(id-1).ToString() + " | ";
+        CurrentMagazine.text = weaponSettings.retrieveCurrentMagazine(id-1).ToString();
     }
 
     public void HoverExit()

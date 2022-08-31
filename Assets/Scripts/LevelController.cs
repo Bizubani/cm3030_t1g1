@@ -9,26 +9,39 @@ public class LevelController : MonoBehaviour
     [SerializeField] int numberOfSections;
     GameObject gameLevel;
     public int levelNumber;
+    public bool gameStarted = true;
+    private int RandomSection;
 
     // Start is called before the first frame update
     void Awake()
     {
-        GenerateLevel(levelNumber);
+        GenerateLevel(gameStarted);
     }
 
-    public void GenerateLevel(int biome)
+    public void SwitchLevel(int number)
     {
-        if (biome == 0)
+        levelNumber = number;
+        GenerateLevel(true);
+    }
+
+    public void GenerateLevel(bool started)
+    {
+        if(!gameStarted)
         {
-            levelSections = Resources.LoadAll<GameObject>("RedPrefabs");
+            levelNumber++;
         }
-        if (biome == 1)
+
+        if (levelNumber == 0)
+        {
+            levelSections = Resources.LoadAll<GameObject>("BluePrefabs");
+        }
+        if (levelNumber == 1)
         {
             levelSections = Resources.LoadAll<GameObject>("GreenPrefabs");
         }
-        if (biome == 2)
+        if (levelNumber == 2)
         {
-            levelSections = Resources.LoadAll<GameObject>("BluePrefabs");
+            levelSections = Resources.LoadAll<GameObject>("RedPrefabs");
         }
 
         gameLevel = GameObject.Find("Generated Level");
@@ -37,9 +50,18 @@ public class LevelController : MonoBehaviour
         
         section0.transform.parent = gameLevel.transform;
         
-        for (int i = 0; i < numberOfSections; i++)
+        for (int i = 0; i < numberOfSections -1; i++)
         {
-            int section = Random.Range(1, levelSections.Length);
+            if(i == 0)
+            {
+                RandomSection = Random.Range(1,1);
+            }
+
+            if(i == 1)
+            {
+                RandomSection = Random.Range(2,2);
+            }
+            int section = RandomSection;
             GameObject grnSection = Instantiate(levelSections[section], nextSpawn, Quaternion.identity);
             nextSpawn = grnSection.transform.Find("SpawnPoint").position;
 

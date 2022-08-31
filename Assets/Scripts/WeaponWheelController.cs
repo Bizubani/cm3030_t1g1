@@ -98,12 +98,12 @@ public class WeaponWheelController : MonoBehaviour
         if(weaponWheelSelected)
         {
             anim.SetBool("OpenWeaponWheel", true);
-            gameSettings.timeSpeed = 0.1f;
+            gameSettings.timeManipulation(0.1f);
         }
         else
         {
             anim.SetBool("OpenWeaponWheel", false);
-            gameSettings.timeSpeed = 1f;
+            gameSettings.timeManipulation(1f);
         }
     }
 

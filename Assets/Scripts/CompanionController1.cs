@@ -35,6 +35,8 @@ public class CompanionController1 : MonoBehaviour
     bool alreadyAttacked;
     public GameObject projectile;
     public Transform projectileSpawn;
+
+    private Coroutine EnemyCoroutine;
     public List<Transform> enemy = new List<Transform>();
 
     //States
@@ -60,6 +62,31 @@ public class CompanionController1 : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Zombie Enemy" && other.gameObject.GetComponent<EnemyController>().enemyHealth > 1)
+        {
+            enemy.Add(other.gameObject.transform);
+            attack = true;
+        }
+        else
+        {
+            enemy.Remove(other.gameObject.transform);
+
+            attack = false; 
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.tag == "Zombie Enemy" && other.gameObject.GetComponent<EnemyController>().enemyHealth > 1)
+        {
+            enemy.Remove(other.gameObject.transform);
+
+            attack = false;
+        }
+    }
+
     void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -72,6 +99,12 @@ public class CompanionController1 : MonoBehaviour
 
     private void Update()
     {
+        for(var i = enemy.Count - 1; i > -1; i--)
+        {
+            if (enemy[i] == null)
+            enemy.RemoveAt(i);
+        }
+        
         try 
         {
             CM = GameObject.Find("Menu");
@@ -227,11 +260,21 @@ public class CompanionController1 : MonoBehaviour
         int closestIndex = 0;
         for(int i = 0; i < enemy.Count; i++)
         {
-            float dist = Vector3.Distance(transform.position, enemy[i].position);
-            if(dist < closestDistance && enemy[closestIndex].gameObject.GetComponent<EnemyController>().enemyHealth > 0)
+            if(enemy[i].position != null)
             {
-                closestDistance = dist;
-                closestIndex = i;
+                float dist = Vector3.Distance(transform.position, enemy[i].position);
+                if(dist < closestDistance && enemy[closestIndex].gameObject.GetComponent<EnemyController>().enemyHealth > 0)
+                {
+                    closestDistance = dist;
+                    closestIndex = i;
+                }
+            }
+            else
+            {
+                enemy.Remove(enemy[i]);
+                
+                attack = false;
+                return;
             }
         }
 
@@ -285,14 +328,19 @@ public class CompanionController1 : MonoBehaviour
         }
     }
 
-    public void GetEnemies()
+    public void GetEnemies(Transform enemySpawnName)
     {
-        GameObject enemyTemp = GameObject.Find("Enemy Collection");
+        // GameObject enemyTemp = GameObject.Find(enemySpawnName);
 
-        for(var i = 0; i < enemyTemp.transform.childCount; i++)
+        for(var i = 0; i < enemySpawnName.childCount; i++)
         {
-            enemy.Add(enemyTemp.gameObject.transform.GetChild(i));
+            enemy.Add(enemySpawnName.GetChild(i));
         }
+
+        // for(var i = 0; i < enemyTemp.transform.childCount; i++)
+        // {
+        //     enemy.Add(enemyTemp.gameObject.transform.GetChild(i));
+        // }
     }
 
     public void CleanReferences()

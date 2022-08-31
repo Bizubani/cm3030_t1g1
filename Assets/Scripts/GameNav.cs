@@ -14,24 +14,28 @@ public class GameNav : MonoBehaviour
     public GameObject WeaponWheelMenu;
     public WeaponWheelController weaponWheelController;
 
+    [Header("Mission Stats Menu")]
+    public GameObject MissionStatsMenu;
+
     void Start()
     {
         //SceneManager.LoadScene("Character Menu", LoadSceneMode.Additive);
-        gameSettings = GetComponent<GameSettings>();
         CharacterMenu.SetActive(false);
         WeaponWheelMenu.SetActive(false);
+        MissionStatsMenu.SetActive(false);
+        Cursor.visible = false;
     }
 
         // Update is called once per frame
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C))
+        if(Input.GetKeyDown(KeyCode.C) && !CharacterMenu.activeSelf)
         {
-            CharacterMenu.SetActive(true);
-            if(CharacterMenu.activeSelf)
-            {
-                gameSettings.timeSpeed = 0;
-            }
+            setMenu(true);
+        }
+        else if(Input.GetKeyDown(KeyCode.C) && CharacterMenu.activeSelf)
+        {
+            setMenu(false);
         }
 
         if(Input.GetKeyDown(KeyCode.Tab))
@@ -44,8 +48,23 @@ public class GameNav : MonoBehaviour
             else if(!CharacterMenu.activeSelf)
             {
                 WeaponWheelMenu.SetActive(true);
+                Cursor.visible = false;
                 weaponWheelController.TriggerWeaponWheel();
             }
+        }
+    }
+
+    public void setMenu(bool menuState)
+    {
+        CharacterMenu.SetActive(menuState);
+        Cursor.visible = false;
+        if(CharacterMenu.activeSelf)
+        {
+            gameSettings.timeManipulation(0);
+        }
+        if(!CharacterMenu.activeSelf)
+        {
+            gameSettings.timeManipulation(1);
         }
     }
 }

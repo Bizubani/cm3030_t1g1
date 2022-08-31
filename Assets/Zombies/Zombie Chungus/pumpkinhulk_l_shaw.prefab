@@ -282,6 +282,36 @@ Transform:
   m_Father: {fileID: 3861087459178662107}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &961686247791975526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3218339232635131098}
+  m_Layer: 10
+  m_Name: Projectile Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3218339232635131098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 961686247791975526}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.89, z: 0.67}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3674709867295146181}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1173993605967534739
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1266,7 @@ Transform:
   - {fileID: 3641108117487896524}
   - {fileID: 5806156322366164978}
   - {fileID: 3852134980504416679}
+  - {fileID: 3218339232635131098}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1328,6 +1359,8 @@ MonoBehaviour:
   IsWalking: IsWalking
   IsAttacking: IsAttacking
   IsDead: IsDead
+  isBoss: 1
+  isRangedEnemy: 0
   agent: {fileID: 3852134980079413037}
   player: {fileID: 0}
   playerDeathController: {fileID: 0}
@@ -1345,8 +1378,8 @@ MonoBehaviour:
   minSpeed: 0.5
   MaxSpeed: 0.8
   timeBetweenAttacks: 5
-  projectile: {fileID: 0}
-  projectileSpawn: {fileID: 0}
+  projectile: {fileID: 1434627103891488, guid: 76396cd7e846b0d4f889de10214b62a2, type: 3}
+  projectileSpawn: {fileID: 3218339232635131098}
   enemyDamageStrength: 1
   sightRange: 50
   attackRange: 1.5

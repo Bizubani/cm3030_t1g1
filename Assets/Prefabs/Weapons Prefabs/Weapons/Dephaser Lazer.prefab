@@ -849,14 +849,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunName: Dephaser Lazer
-  bullet: {fileID: 4284301300041170705, guid: 55502f9242276234fb552b3495093d93, type: 3}
+  bullet: {fileID: 1845955007268882, guid: 3e28f94f2142fae4ea96745345570479, type: 3}
   shootForce: 0
   upwardForce: 0
-  timeBetweenShooting: 0
+  timeBetweenShooting: 1
   spread: 0
-  reloadTime: 5
-  timeBetweenShots: 0
-  magazineSize: 1500
+  reloadTime: 3
+  timeBetweenShots: 1
+  magazineSize: 300
   bulletsPerTap: 1
   magazineAmount: 3
   allowButtonHold: 1
@@ -869,8 +869,10 @@ MonoBehaviour:
   - {fileID: 5834024802696019633}
   muzzleFlash: {fileID: 0}
   ammunitionDisplay: {fileID: 0}
+  magazineDisplay: {fileID: 0}
   gunNameDisplay: {fileID: 0}
   allowInvoke: 1
+  weaponNumber: 0
 --- !u!82 &-3960810233303605297
 AudioSource:
   m_ObjectHideFlags: 0
@@ -880,7 +882,8 @@ AudioSource:
   m_GameObject: {fileID: 8684711560226582537}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 10fc9d4083a5c8348af0946d85101aed,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 438a3767f7297ad4d8a8d1f07f79bb0e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1070,7 +1073,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8818749344198823725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.47, y: 0, z: 0}
+  m_LocalPosition: {x: -14.72, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8344496702110624435}
