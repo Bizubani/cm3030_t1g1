@@ -55,12 +55,6 @@ public class PlayerCollectableStats : MonoBehaviour
         playerXPSlider.value = experienceXP;
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
-
     public void addToExperienceXP(int addXP)
     {
         experienceXP += addXP;

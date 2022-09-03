@@ -10,9 +10,7 @@ public class RigidBodyPlayerMovement : MonoBehaviour
     public float moveSpeed;
     public float dashSpeed;
     public float dashSpeedChangeFactor;
-
     public float groundDrag;
-
     public float jumpForce;
     public float gravity;
     public float jumpCooldown;
@@ -43,15 +41,6 @@ public class RigidBodyPlayerMovement : MonoBehaviour
     RigidbodyConstraints originalConstraints;
     private UnityEngine.AI.NavMeshAgent agent;
 
-    ////////////
-    // public float speed;
-    // public float rotationSpeed;
-
-    // public float jumpSpeed;
-    // private CharacterController characterController;
-    // private float ySpeed;
-
-    private GameObject CM;
 
     public MovementState state;
 
@@ -62,23 +51,6 @@ public class RigidBodyPlayerMovement : MonoBehaviour
     }
 
     public bool dashing;
-
-    // private PlayerInput playerInput;
-
-    // private void Awake()
-    // {
-    //     playerInput = new PlayerInput();
-    // }
-
-    // private void OnEnable()
-    // {
-    //     playerInput.Enable();
-    // }
-
-    // private void OnDisable()
-    // {
-    //     playerInput.Disable();
-    // }
 
     private void Start()
     {
@@ -97,55 +69,29 @@ public class RigidBodyPlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        try 
+        // ground check
+        grounded = Physics.Raycast(groundCheck.position, Vector3.down, playerHeight * 1f + 0.5f, whatIsGround);
+
+        MyInput();
+        SpeedControl();
+
+        // handle drag
+        if (grounded)
         {
-            CM = GameObject.Find("Menu");
-
-            if (CM.activeSelf)
-            {
-
-            }
+            rb.drag = groundDrag;
+            rb.constraints = originalConstraints;
         }
-        catch (Exception e) 
+        else
         {
-            // ground check
-            grounded = Physics.Raycast(groundCheck.position, Vector3.down, playerHeight * 1f + 0.5f, whatIsGround);
-            // RaycastHit hit;
-            //grounded = Physics.SphereCast(groundCheck.position,  playerHeight * 1f + 0.5f,transform.down,out hit ,whatIsGround);
-            // ySpeed += Physics.gravity.y * Time.deltaTime;
-            MyInput();
-            SpeedControl();
-
-            // handle drag
-            if (grounded)
-            {
-                rb.drag = groundDrag;
-                rb.constraints = originalConstraints;
-            }
-            else
-            {
-                rb.drag = 0;
-            }
-        }  
+            rb.drag = 0;
+        }
 
     }
 
     private void FixedUpdate()
     {
-        try 
-        {
-            CM = GameObject.Find("Character Menu");
-
-            if (CM.activeSelf)
-            {
-
-            }
-        }
-        catch (Exception e) 
-        {
-            MovePlayer();
-            rb.AddForce(Vector3.down * gravity, ForceMode.Impulse);
-        } 
+        MovePlayer();
+        rb.AddForce(Vector3.down * gravity, ForceMode.Impulse);
     }
 
     private void MyInput()
@@ -164,17 +110,7 @@ public class RigidBodyPlayerMovement : MonoBehaviour
         if(Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
-
-            // Vector3 movementDirection = new Vector3(horizontalInput, 0 , verticalInput);
-            // float magnitude = Mathf.Clamp01(movementDirection.magnitude) * speed;
-            // movementDirection.Normalize();
-
             Jump();
-
-            // Vector3 velocity = moveDirection * magnitude;
-            // velocity.y = ySpeed;
-            // characterController.Move(velocity * Time.deltaTime);
-
             Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
@@ -254,10 +190,6 @@ public class RigidBodyPlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        // if(state == MovementState.dashing)
-        // {
-        //     return;
-        // }
 
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -302,15 +234,10 @@ public class RigidBodyPlayerMovement : MonoBehaviour
             agent.isStopped = true;
         }
 
-        // reset y velocity
-        // rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        // rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
         Debug.Log("I jumped");
 
         rb.velocity = Vector3.up * jumpForce;
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-
-        //ySpeed = jumpSpeed;
     }
 
     private void ResetJump()

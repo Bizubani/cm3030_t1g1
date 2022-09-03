@@ -17,16 +17,12 @@ public class RobotTurretMovementScript : MonoBehaviour
     public float smoothTurnTime = 0.1f;
     public float smoothTurnVelocity;
 
-    private GameObject CM;
-
     private Vector3 tmpMousePosition;
     AudioSource turretMove;
 
     public Transform PlayerCursor;
     public float rayCastDistance;
 
-    // public float threshold;
-    // public float cameraHeight = 10f;
     private void Start()
     {
         PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
@@ -40,19 +36,7 @@ public class RobotTurretMovementScript : MonoBehaviour
 
     private void Update()
     {
-        try 
-        {
-            CM = GameObject.Find("Menu");
-
-            if (CM.activeSelf)
-            {
-
-            }
-        }
-        catch (Exception e) 
-        {
-            MovePlayer();
-        }   
+        MovePlayer();       
 
         if (tmpMousePosition != Input.mousePosition)
         {
@@ -63,7 +47,6 @@ public class RobotTurretMovementScript : MonoBehaviour
         {
             turretMove.Play();
         }
-
 
     }
 
@@ -87,25 +70,11 @@ public class RobotTurretMovementScript : MonoBehaviour
 
             Vector3 moveToCameraDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            // PlayerCharacter.Move(moveToCameraDirection.normalized * moveSpeed * Time.deltaTime);
             robotPlayer.transform.rotation = Quaternion.LookRotation(moveToCameraDirection);
-            //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
         }
-        //Create an invisable Ray from the camera to the mouse cursor.
-        //Also creates a new plane as the height of the robot turret, this is use to rotate the turret towards the mouse cursor.
-        // Ray mouseRay = PlayerCamera.ScreenPointToRay(Input.mousePosition);
-        // Plane p = new Plane(Vector3.up, Vector3.up, robotTurret.transform.position);
-        
-        // if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
 
-        // if(p.Raycast(mouseRay, out float hitDist))
-        // {
-        //     Vector3 hitPoint = mouseRay.GetPoint(hitDist);
-        //     robotTurret.transform.LookAt(hitPoint);
-        // }
 
           //Find the exact hit position using a raycast
-        // Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
         RaycastHit hit;
 
@@ -119,18 +88,6 @@ public class RobotTurretMovementScript : MonoBehaviour
                 PlayerCursor.position = hit.point;
             }
         }
-
-        // if (Physics.Raycast(ray, out hit))
-        // {
-        //     Vector3 mousePos = hit.point;
-        //     Vector3 targetPos = (robotPlayer.transform.position + mousePos) / 2f;
-
-        //     targetPos.x = Mathf.Clamp(targetPos.x, -threshold + robotPlayer.transform.position.x, threshold + robotPlayer.transform.position.x);
-        //     targetPos.y = cameraHeight;
-        //     targetPos.z = Mathf.Clamp(targetPos.z, -threshold + robotPlayer.transform.position.z, threshold + robotPlayer.transform.position.z);
-
-        //     robotTurret.transform.LookAt(targetPos);
-        //     PlayerCursor.position = targetPos;
-        // }        
+   
     }
 }

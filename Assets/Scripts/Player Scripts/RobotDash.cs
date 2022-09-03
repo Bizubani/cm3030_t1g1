@@ -35,7 +35,6 @@ public class RobotDash : MonoBehaviour
     public float dashStaminaAmountStart = 25;
 
         
-    //public TextMeshProUGUI playerDashText;
     public Slider playerDashSlider;
 
     private void Start()

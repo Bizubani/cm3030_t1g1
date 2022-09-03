@@ -14,11 +14,6 @@ public class MainMenuNav : MonoBehaviour
         OptionsMenu.SetActive(false);
     }
 
-    // public void PlayGame()
-    // {
-    //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    // }
-
     public void QuitGame()
     {
         Debug.Log("You have Destroyed the Game");

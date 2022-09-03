@@ -105,7 +105,6 @@ public class EnemyWaveSpawner : MonoBehaviour
             searchCountDown = 1f;
             if(spawnPoint.transform.childCount <= 0)
             {
-                //getEnemies.CleanReferences();
                 return false;
             }
         }

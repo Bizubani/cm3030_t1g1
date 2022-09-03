@@ -51,9 +51,7 @@ public class CollectableSettings : MonoBehaviour
         weaponSettings = GameObject.Find("Weapon Settings").GetComponent<WeaponSettings>();
         playerDeathController = GameObject.Find("Player Character").GetComponent<PlayerDeathController>();
         interactButton = gameObject.transform.GetChild(0).gameObject;
-        //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         player = GameObject.Find("Player Character").transform;
-        //agent.speed = lootCollectSpeed;
 
         audioSource = GetComponent<AudioSource>();
 

@@ -90,7 +90,6 @@ public class LootSpawner : MonoBehaviour
     void randomSpawnposition()
     {
         randomXPos = Random.Range(-2,2);
-        //randomYPos = Random.Range(0,0);
         randomZPos = Random.Range(-2,2);
     }
 

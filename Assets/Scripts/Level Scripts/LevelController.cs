@@ -77,12 +77,4 @@ public class LevelController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    // void Update()
-    // {
-    //     if (Input.GetKeyDown("space"))
-    //     {
-    //         SceneManager.LoadScene("Project URZA Game Test Scene");
-    //     }
-    // }
 }

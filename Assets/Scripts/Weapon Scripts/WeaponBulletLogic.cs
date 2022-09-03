@@ -47,8 +47,6 @@ public class WeaponBulletLogic : MonoBehaviour
     //bug fixing
     public bool allowInvoke = true;
 
-    private GameObject CM;
-
     //Audio
     [Header("AUDIO")]
     AudioSource audioSource;
@@ -95,39 +93,27 @@ public class WeaponBulletLogic : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        try 
+        MyInput();
+
+        //Set ammo display, if it exists
+        if(ammunitionDisplay != null)
         {
-            CM = GameObject.Find("Menu");
-
-            if (CM.activeSelf)
+            ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " | " + magazineSize / bulletsPerTap);
+            if(magazineAmount <= -1)
             {
-
+                magazineDisplay.SetText("NO AMMO");
             }
+            else
+            {
+                magazineDisplay.SetText(magazineAmount.ToString());
+            }
+            gunNameDisplay.SetText("- "+ gunName + " -");
         }
-        catch (Exception e) 
+
+        if(Input.GetKeyDown(KeyCode.Tab) && !weaponStatus)
         {
-            MyInput();
-
-            //Set ammo display, if it exists
-            if(ammunitionDisplay != null)
-            {
-                ammunitionDisplay.SetText(bulletsLeft / bulletsPerTap + " | " + magazineSize / bulletsPerTap);
-                if(magazineAmount <= -1)
-                {
-                    magazineDisplay.SetText("NO AMMO");
-                }
-                else
-                {
-                    magazineDisplay.SetText(magazineAmount.ToString());
-                }
-                gunNameDisplay.SetText("- "+ gunName + " -");
-            }
-
-            if(Input.GetKeyDown(KeyCode.Tab) && !weaponStatus)
-            {
-                updateWeaponSettings();
-            }
-        }   
+            updateWeaponSettings();
+        }
     }
 
     private void MyInput()
@@ -179,7 +165,6 @@ public class WeaponBulletLogic : MonoBehaviour
         readyToShoot = false;
 
         //Find the exact hit position using a raycast
-        //Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
         RaycastHit hit;
 
@@ -216,12 +201,6 @@ public class WeaponBulletLogic : MonoBehaviour
             //For bouncing Grenades
             currentBullet.GetComponent<Rigidbody>().AddForce(playerCamera.transform.up * upwardForce, ForceMode.Impulse);
 
-            //Instantiate muzzle flash, if you have one
-            /*
-            if(muzzleFlash != null)
-            {
-                Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
-            }*/
 
             bulletsLeft--;
 

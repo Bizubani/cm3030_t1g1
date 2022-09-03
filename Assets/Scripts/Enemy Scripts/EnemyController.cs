@@ -13,7 +13,6 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private string IsAttacking = "IsAttacking";
     [SerializeField] private string IsDead = "IsDead";
 
-    private GameObject CM;
 
     public bool isBoss = false;
     public bool isRangedEnemy = false;
@@ -62,26 +61,6 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // private void OnTriggerEnter(Collider collisionInfo)
-    // {
-    //     if(collisionInfo.GetComponent<Collider>().tag =="Bullet" && enemyDead == false && enemyHealth >= 0)
-    //     {
-    //         TakeDamage(1);
-    //         Destroy(collisionInfo.gameObject);
-    //         Debug.Log("Got Hit");
-    //     }
-    // }
-
-    // void Awake()
-    // {
-    //     player = GameObject.Find("Player Character").transform;
-    //     agent = GetComponent<NavMeshAgent>();
-    //     agent.GetComponent<Animator>().speed = Random.Range(minSpeed, MaxSpeed);
-
-    //     float RandomDeathAnimation = Random.Range(0,10);
-    //     Debug.Log("My Random Number"+ RandomDeathAnimation);
-    //     ZombieEnemyAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
-    // }
 
     private void Start()
     {
@@ -289,27 +268,6 @@ public class EnemyController : MonoBehaviour
 
     private bool getIfActive()
     {
-        // for(int i = 0; i < gameObject.transform.childCount; i++)
-        // {
-        //     GameObject enemyChild = gameObject.transform.GetChild(i).gameObject;
-        //     if(!playerInDespawnRange)
-        //     {
-        //         enemyChild.SetActive(false);
-        //         return (false);
-        //     }    
-        //     else if(playerInDespawnRange)
-        //     {
-        //         enemyChild.SetActive(true);
-        //         return (true);
-        //     }
-        //     else
-        //     {
-        //         enemyChild.SetActive(false);
-        //         return (false);
-        //     }
-        // }    
-        // enemyChild.SetActive(false);
-        // return (false);
 
             if(!playerInDespawnRange)
             {

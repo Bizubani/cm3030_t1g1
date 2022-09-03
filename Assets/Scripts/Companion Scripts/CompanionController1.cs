@@ -12,7 +12,6 @@ public class CompanionController1 : MonoBehaviour
     [SerializeField] private string IsAttacking = "IsAttacking";
     [SerializeField] private string IsDead = "IsDead";
 
-    private GameObject CM;
 
     public UnityEngine.AI.NavMeshAgent agent;
 
@@ -105,110 +104,100 @@ public class CompanionController1 : MonoBehaviour
             enemy.RemoveAt(i);
         }
         
-        try 
+
+        //Check for sight and attack range
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatToFollow);
+        playerInPatrolRange = Physics.CheckSphere(transform.position, patrolRange, whatToFollow);
+        enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsEnemy);
+
+        if(enemyInAttackRange && playerInPatrolRange ||
+        enemyInAttackRange && idle)
         {
-            CM = GameObject.Find("Menu");
-
-            if (CM.activeSelf)
-            {
-
-            }
+            attack = true;
+            chase = false;
+            idle = false;
         }
-        catch (Exception e) 
+        else if(playerInPatrolRange)
         {
-            //Check for sight and attack range
-            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatToFollow);
-            playerInPatrolRange = Physics.CheckSphere(transform.position, patrolRange, whatToFollow);
-            enemyInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsEnemy);
+            if(playerInSightRange)
+            {
+                setPatrol = true;
 
-            if(enemyInAttackRange && playerInPatrolRange ||
-            enemyInAttackRange && idle)
-            {
-                attack = true;
-                chase = false;
-                idle = false;
-            }
-            else if(playerInPatrolRange)
-            {
-                if(playerInSightRange)
+                if(setPatrol != false)
                 {
-                    setPatrol = true;
-
-                    if(setPatrol != false)
-                    {
-                        patrol = true;
-                        chase = false;
-                        attack = false;
-                        idle = false;
-                    }
-                }
-            }
-            else if(!playerInPatrolRange && !playerInSightRange && enemyInAttackRange ||
-                    !playerInPatrolRange && !playerInSightRange && !enemyInAttackRange)
-            {
-                chase = true;
-                setPatrol = false;
-                patrol = false;
-                attack = false;
-                idle = false;
-            }
-            else if(idle)
-            {
-                idle = true;
-                attack = false;
-                chase = false;
-                setPatrol = false;
-                idle = false;
-            }
-
-            if (companionHealth <= 0 && companionDead == false)
-            {
-                CompanionKilledEnemy();
-            }
-            else if (companionHealth >= 0 && companionDead == false)
-            {
-                if(patrol)
-                {
-                    Debug.Log("Enemy is Walking");
-                    CompanionHumanAnimator.SetBool(IsRunning, false);
-                    CompanionHumanAnimator.SetBool(IsIdling, false);
-                    CompanionHumanAnimator.SetBool(IsAttacking, false);
-                    CompanionHumanAnimator.SetBool(IsWalking, true);
-                    agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*1;
-                    Patroling();
-                }
-                
-                else if(chase)
-                {
-                    Debug.Log("Enemy is Walking");
-                    CompanionHumanAnimator.SetBool(IsIdling, false);
-                    CompanionHumanAnimator.SetBool(IsWalking, false);
-                    CompanionHumanAnimator.SetBool(IsAttacking, false);
-                    CompanionHumanAnimator.SetBool(IsRunning, true);
-                    agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*5;
-                    ChasePlayer();
-                }
-
-                else if(attack)
-                {
-                    Debug.Log("COVERING FIRE");
-                    CompanionHumanAnimator.SetBool(IsRunning, false);
-                    CompanionHumanAnimator.SetBool(IsWalking, false);
-                    CompanionHumanAnimator.SetBool(IsIdling, false);
-                    CompanionHumanAnimator.SetBool(IsAttacking, true);
-                    agent.speed = 0;
-                    AttackEnemy();
-                }
-                else
-                {
-                    CompanionHumanAnimator.SetBool(IsRunning, false);
-                    CompanionHumanAnimator.SetBool(IsWalking, false);
-                    CompanionHumanAnimator.SetBool(IsAttacking, false);
-                    CompanionHumanAnimator.SetBool(IsIdling, true);
-                    agent.speed = 0;
+                    patrol = true;
+                    chase = false;
+                    attack = false;
+                    idle = false;
                 }
             }
         }
+        else if(!playerInPatrolRange && !playerInSightRange && enemyInAttackRange ||
+                !playerInPatrolRange && !playerInSightRange && !enemyInAttackRange)
+        {
+            chase = true;
+            setPatrol = false;
+            patrol = false;
+            attack = false;
+            idle = false;
+        }
+        else if(idle)
+        {
+            idle = true;
+            attack = false;
+            chase = false;
+            setPatrol = false;
+            idle = false;
+        }
+
+        if (companionHealth <= 0 && companionDead == false)
+        {
+            CompanionKilledEnemy();
+        }
+        else if (companionHealth >= 0 && companionDead == false)
+        {
+            if(patrol)
+            {
+                Debug.Log("Enemy is Walking");
+                CompanionHumanAnimator.SetBool(IsRunning, false);
+                CompanionHumanAnimator.SetBool(IsIdling, false);
+                CompanionHumanAnimator.SetBool(IsAttacking, false);
+                CompanionHumanAnimator.SetBool(IsWalking, true);
+                agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*1;
+                Patroling();
+            }
+            
+            else if(chase)
+            {
+                Debug.Log("Enemy is Walking");
+                CompanionHumanAnimator.SetBool(IsIdling, false);
+                CompanionHumanAnimator.SetBool(IsWalking, false);
+                CompanionHumanAnimator.SetBool(IsAttacking, false);
+                CompanionHumanAnimator.SetBool(IsRunning, true);
+                agent.speed = UnityEngine.Random.Range(minSpeed, MaxSpeed)*5;
+                ChasePlayer();
+            }
+
+            else if(attack)
+            {
+                Debug.Log("COVERING FIRE");
+                CompanionHumanAnimator.SetBool(IsRunning, false);
+                CompanionHumanAnimator.SetBool(IsWalking, false);
+                CompanionHumanAnimator.SetBool(IsIdling, false);
+                CompanionHumanAnimator.SetBool(IsAttacking, true);
+                agent.speed = 0;
+                AttackEnemy();
+            }
+            else
+            {
+                CompanionHumanAnimator.SetBool(IsRunning, false);
+                CompanionHumanAnimator.SetBool(IsWalking, false);
+                CompanionHumanAnimator.SetBool(IsAttacking, false);
+                CompanionHumanAnimator.SetBool(IsIdling, true);
+                agent.speed = 0;
+            }
+        }
+        
 
         Debug.Log(companionHealth);
     }
@@ -331,16 +320,11 @@ public class CompanionController1 : MonoBehaviour
     public void GetEnemies(Transform enemySpawnName)
     {
         // GameObject enemyTemp = GameObject.Find(enemySpawnName);
-
         for(var i = 0; i < enemySpawnName.childCount; i++)
         {
             enemy.Add(enemySpawnName.GetChild(i));
         }
 
-        // for(var i = 0; i < enemyTemp.transform.childCount; i++)
-        // {
-        //     enemy.Add(enemyTemp.gameObject.transform.GetChild(i));
-        // }
     }
 
     public void CleanReferences()

@@ -6,13 +6,7 @@ public class RobotBodyReact : MonoBehaviour
 {
     [SerializeField] private Animator RobotPlayerAnimator;
     [SerializeField] private string IsSquished = "IsSquished";
-    //[SerializeField] private float BlendWalkingValue = 0;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()

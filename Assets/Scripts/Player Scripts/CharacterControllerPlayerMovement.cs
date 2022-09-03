@@ -14,12 +14,6 @@ public class PlayerMovement : MonoBehaviour
     public float smoothTurnTime = 0.1f;
     public float smoothTurnVelocity;
     public Transform playerCameraTransform;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -46,11 +40,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Vector3 newDirection = Vector3.RotateTowards(robotPlayer.transform.forward, targetDirection, rotateSpeed * Time.deltaTime, 0.0f);
-        //robotPlayer.transform.rotation = Quaternion.LookRotation(newDirection);
-        
-        //Move the player globally via WASD input
-        //transform.Translate(new Vector3 (h, 0, v) * moveSpeed * Time.deltaTime, Space.World);
-        
+                
         //Create an invisable Ray from the camera to the mouse cursor.
         //Also creates a new plane as the height of the robot turret, this is use to rotate the turret towards the mouse cursor.
         Ray mouseRay = playerCamera.ScreenPointToRay(Input.mousePosition);

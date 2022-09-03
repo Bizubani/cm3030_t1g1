@@ -146,7 +146,6 @@ public class StaticEnemyController : MonoBehaviour
             rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
             rb.AddForce(transform.up * 8f, ForceMode.Impulse);
 
-            ///
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class WeaponSettings : MonoBehaviour
 {
-    // Objects.Add(Obj);
-    // Objects.remove(Obj);,
-    // Objects.Insert(0,Obj);
-    // Objects.RemoveAt(0);
 
     List<int> weaponCurrentAmmo = new List<int>();
     List<int> weaponCurrentMagazine = new List<int>();
@@ -22,12 +18,6 @@ public class WeaponSettings : MonoBehaviour
             weaponIsNew.Add(true);
         }
     }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 
     public bool updateWeaponStatus(int weaponNumber)
     {

@@ -15,11 +15,6 @@ public class UpgradesSettings : MonoBehaviour
             AssignSpecialTab(0,false);
     }
 
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
 
     public void HealthUpgrades(int upgradeNumber)
     {

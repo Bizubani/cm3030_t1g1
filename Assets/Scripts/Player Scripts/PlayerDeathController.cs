@@ -102,18 +102,6 @@ public class PlayerDeathController : MonoBehaviour
         }
     }
 
-    // void OnCollisionEnter (Collision collisionInfo)
-    // {
-    //     if(collisionInfo.collider.tag =="Zombie Enemy")
-    //     {
-    //         if(collisionInfo.gameObject.GetComponent<EnemyController>().enemyHealth > 0)
-    //         {
-    //             TakeDamage(1);
-    //             Debug.Log("Player Got Hit, Health:" + playerHealth + "/10");
-    //         }
-    //     }
-    // }
-
     public void TakeDamage(int damage)
     {
         if(playerShield > 0 && shieldActive == true)
