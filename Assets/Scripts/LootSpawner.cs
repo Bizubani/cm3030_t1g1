@@ -14,13 +14,17 @@ public class LootSpawner : MonoBehaviour
     public GameObject xpOrb;
     public GameObject scrapOrb;
     private PlayerCollectableStats playerCollectableStats;
+    public bool hasInteractSign = false;
     public GameObject interactSign;
+
+    public bool hasFakeItemsInside = false;
     public GameObject cubeItems;
 
     private bool playerInLootRange;
     public bool IsLootBox = false;
     public Transform lootSpawnPoint;
 
+    public bool hasAnimator = false;
     [SerializeField] private Animator PodAnimator;
     [SerializeField] private string IsOpen = "IsOpen";
     [SerializeField] private string IsIdle = "IsIdle";
@@ -32,10 +36,19 @@ public class LootSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PodAnimator.SetBool(IsOpen, false);
-        PodAnimator.SetBool(IsIdle, true);
-        interactSign = transform.GetChild(0).gameObject;
-        cubeItems = transform.GetChild(1).gameObject;
+        if(hasAnimator)
+        {
+            PodAnimator.SetBool(IsOpen, false);
+            PodAnimator.SetBool(IsIdle, true);
+        }
+        if(hasInteractSign)
+        {
+            interactSign = transform.GetChild(0).gameObject;
+        }
+        if(hasFakeItemsInside)
+        {
+            cubeItems = transform.GetChild(1).gameObject;
+        }
     }
 
     // Update is called once per frame

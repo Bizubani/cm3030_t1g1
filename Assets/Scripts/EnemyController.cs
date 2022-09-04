@@ -52,6 +52,11 @@ public class EnemyController : MonoBehaviour
     public GameObject DeathExplosion;
     public LootSpawner lootSpawner;
 
+    // AudioSource audioSource;
+    // public AudioClip normalSound;
+    // public AudioClip deathSound;
+    
+
     void OnCollisionEnter (Collision collisionInfo)
     {
         if(collisionInfo.collider.tag =="Bullet" && enemyDead == false && enemyHealth >= 0)
@@ -94,6 +99,8 @@ public class EnemyController : MonoBehaviour
         float RandomDeathAnimation = UnityEngine.Random.Range(0,10);
         Debug.Log("My Random Number"+ RandomDeathAnimation);
         ZombieEnemyAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
+
+        // audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -203,7 +210,18 @@ public class EnemyController : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        Vector3 myPositionVector = new Vector3(UnityEngine.Random.Range(player.position.x + 5,player.position.x - 5), 
+                                                player.position.y,
+                                                UnityEngine.Random.Range(player.position.z + 5,player.position.z - 5));
+        agent.SetDestination(myPositionVector);
+
+        float dist = Vector3.Distance(transform.position, myPositionVector);
+        float distCloseToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if(dist < 1 || distCloseToPlayer < 1)
+        {
+            agent.SetDestination(player.position);
+        }
     }
 
     private void AttackPlayer()
@@ -277,6 +295,8 @@ public class EnemyController : MonoBehaviour
             playerCollectableStats.addToEnemiesKilled(1);
         }
 
+        Collider collider = GetComponent<Collider>();
+        collider.enabled = !collider.enabled;
         Destroy(gameObject,10);
         Instantiate(DeathExplosion, transform.position, Quaternion.identity);
         lootSpawner.spawnLoot(transform);

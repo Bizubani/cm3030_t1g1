@@ -133,16 +133,17 @@ MonoBehaviour:
   shootForce: 100
   upwardForce: 0
   timeBetweenShooting: 0.1
-  spread: 10
+  spread: 2
   reloadTime: 5
   timeBetweenShots: 0.1
   magazineSize: 200
   bulletsPerTap: 1
-  magazineAmount: 3
+  magazineAmount: 10
   allowButtonHold: 1
   playerRigidBody: {fileID: 0}
   recoilForce: 0
-  cameraShake: {fileID: 0}
+  cameraShake1: {fileID: 0}
+  cameraShake2: {fileID: 0}
   audioListener1: {fileID: 0}
   playerCamera: {fileID: 0}
   allAttackPoints:
@@ -169,7 +170,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 10fc9d4083a5c8348af0946d85101aed,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 32e8c536adc1ea241a1fa1e52f51db32, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 5f43be561872f484087979feb8bec9ef, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1

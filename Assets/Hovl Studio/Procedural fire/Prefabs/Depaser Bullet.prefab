@@ -81,7 +81,7 @@ CapsuleCollider:
   m_Radius: 1
   m_Height: 20
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 13}
+  m_Center: {x: 0, y: 0, z: 20}
 --- !u!136 &3752041108083226346
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -95,7 +95,7 @@ CapsuleCollider:
   m_Radius: 2
   m_Height: 21
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 13}
+  m_Center: {x: 0, y: 0, z: 20}
 --- !u!1 &1988778204445182
 GameObject:
   m_ObjectHideFlags: 0

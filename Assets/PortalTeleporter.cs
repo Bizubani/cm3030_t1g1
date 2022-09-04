@@ -5,7 +5,7 @@ using UnityEngine;
 public class PortalTeleporter : MonoBehaviour {
 
 	public Transform player;
-	public bool findReciever = false;
+	public bool findReciever = true;
 	public string recieverName;
 	public Transform reciever;
 
@@ -15,10 +15,10 @@ public class PortalTeleporter : MonoBehaviour {
 	{
 		player = GameObject.Find("Player Character").GetComponent<Transform>();
 
-		if(findReciever)
-		{
-			reciever = GameObject.Find(recieverName).transform.GetChild(1).gameObject.transform;
-		}
+		// if(findReciever)
+		// {
+		// 	reciever = GameObject.Find(recieverName).transform.GetChild(1).gameObject.transform;
+		// }
 	}
 
 	// Update is called once per frame
@@ -49,6 +49,10 @@ public class PortalTeleporter : MonoBehaviour {
 	{
 		if (other.tag == "Player")
 		{
+			if(findReciever)
+			{
+				reciever = GameObject.Find(recieverName).transform.GetChild(1).gameObject.transform;
+			}
 			playerIsOverlapping = true;
 		}
 	}

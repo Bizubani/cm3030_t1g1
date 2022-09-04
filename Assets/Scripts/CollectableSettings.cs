@@ -3,8 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CollectableSettings : MonoBehaviour
-{   public float itemRange;
+{   
+    public bool isSpecial = false;
+    public int SpecialNumber;
+    public float itemRange;
+    private float tempItemRange;
     public bool playerInItemRange;
+    public bool itemRespawn = false;
+    public float respawnTimeInSeconds = 10f;
 
     //public UnityEngine.AI.NavMeshAgent agent;
     public Transform player;
@@ -50,7 +56,10 @@ public class CollectableSettings : MonoBehaviour
         playerCollectableStats = GameObject.Find("Player Settings").GetComponent<PlayerCollectableStats>();
         weaponSettings = GameObject.Find("Weapon Settings").GetComponent<WeaponSettings>();
         playerDeathController = GameObject.Find("Player Character").GetComponent<PlayerDeathController>();
-        interactButton = gameObject.transform.GetChild(0).gameObject;
+        if(collectedItem)
+        {
+            interactButton = gameObject.transform.GetChild(0).gameObject;
+        }
         //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         player = GameObject.Find("Player Character").transform;
         //agent.speed = lootCollectSpeed;
@@ -92,29 +101,53 @@ public class CollectableSettings : MonoBehaviour
     void Update()
     {
         playerInItemRange = Physics.CheckSphere(transform.position, itemRange, whatIsPlayer);
-        if(attract)
+
+        if(state == ItemState.HP)
         {
-            attractToPlayer();
+            if(playerDeathController.playerHealth != playerDeathController.playerHealthStart)
+            {
+                beginCollecting();
+            }
         }
 
-        if(playerInItemRange && collectWithButton)
+        else if(state == ItemState.SH)
         {
-            if(Input.GetKeyDown(KeyCode.X))
+            if(playerDeathController.playerShield != playerDeathController.playerShieldStart)
+            {
+                beginCollecting();
+            }
+        }
+
+        else
+        {
+            beginCollecting();
+        }
+    }
+
+    void beginCollecting()
+    {
+       if(!collectedItem && playerInItemRange)
+        {
+            if(attract)
+            {
+                attractToPlayer();
+            }
+
+            if(collectWithButton)
+            {
+                if(Input.GetKeyDown(KeyCode.X))
+                {
+                    collectItem();
+                }
+            }
+            else if(playerInItemRange && !collectWithButton)
             {
                 collectItem();
             }
         }
-        else if(playerInItemRange && !collectWithButton)
-        {
-            collectItem();
-        }
-        
+
         if(collectedItem)
         {
-            interactButton.SetActive(false);
-            Destroy(gameObject,2f);
-
-            Instantiate(ItemCollectionExplosion, transform.position, transform.rotation,transform);
             transform.localScale = Vector3.Lerp (transform.localScale, targetScale, scaleDownSpeed * Time.deltaTime);
             currScale--;
             currScale = Mathf.Clamp (currScale, minSize, maxSize+1);
@@ -131,7 +164,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.addToExperienceXP(applyItem);
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -139,7 +171,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.addToCurrencyScrap(applyItem);
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -147,7 +178,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerDeathController.addToCurrentHealth(applyItem);
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -155,7 +185,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 weaponSettings.resetWeapons();
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -163,7 +192,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerDeathController.addToCurrentShield(applyItem);
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -171,7 +199,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.NUKEITEM = applyItem;
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -179,7 +206,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.CUREITEM = applyItem;
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -187,7 +213,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.ROBOTITEM = applyItem;
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -195,7 +220,6 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.SOURCEITEM = applyItem;
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
             }
 
@@ -203,8 +227,37 @@ public class CollectableSettings : MonoBehaviour
             {
                 playerCollectableStats.ROCKETITEM = applyItem;
                 collectedItem = true;
-                audioSource.PlayOneShot(collectClip,1f);
                 appliedCurrentItem = true;
+            }
+
+            if(isSpecial)
+            {
+                playerCollectableStats.CheckSpecialItems(SpecialNumber);
+            }
+        }
+
+        if(!collectedItem)
+        {
+            if(collectedItem)
+            {
+                interactButton.SetActive(false);
+            }
+
+            Instantiate(ItemCollectionExplosion, transform.position, transform.rotation,transform);
+            audioSource.PlayOneShot(collectClip,1f);
+
+            collectedItem = true;
+
+            if(itemRespawn)
+            {
+                StartCoroutine(respawnItemAfterTime(respawnTimeInSeconds));
+                // gameObject.transform.localScale = new Vector3(0,0,0);
+                tempItemRange = itemRange;
+                itemRange = 0;
+            }
+            else
+            {
+                Destroy(gameObject,2f);
             }
         }
     }
@@ -218,6 +271,15 @@ public class CollectableSettings : MonoBehaviour
         {
             Destroy(gameObject,4f);
         }
+    }
+
+    IEnumerator respawnItemAfterTime(float maxTime)
+    {
+        yield return new WaitForSeconds(maxTime);
+        gameObject.transform.localScale = new Vector3(1,1,1);
+        itemRange = tempItemRange;
+        appliedCurrentItem = true;
+        collectedItem = false;
     }
 
 

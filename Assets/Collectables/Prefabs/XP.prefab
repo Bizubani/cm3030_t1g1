@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650202828772370310}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.20165287, y: 0.19213915, z: 0.0033277273}
+  m_LocalPosition: {x: 0.20165287, y: 1, z: 0.0033277273}
   m_LocalScale: {x: 29.238731, y: 29.238731, z: 29.238731}
   m_Children: []
   m_Father: {fileID: 6768708442720166939}
@@ -105,7 +105,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 949718988159926073}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.21824802, y: 0.19213915, z: 0.0033277273}
+  m_LocalPosition: {x: -0.21824802, y: 1, z: 0.0033277273}
   m_LocalScale: {x: 29.238731, y: 29.238731, z: 29.238731}
   m_Children: []
   m_Father: {fileID: 6768708442720166939}
@@ -393,6 +393,7 @@ MonoBehaviour:
   startSize: 1
   lootCollectSpeed: 50
   attract: 0
+  collectWithButton: 0
   collectClip: {fileID: 8300000, guid: 18c3106f08c563b4dbb2739d65f25012, type: 3}
 --- !u!1 &8549012629451191356
 GameObject:
@@ -420,7 +421,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8549012629451191356}
   m_LocalRotation: {x: 0.5000001, y: 0.50000006, z: -0.4999999, w: -0.49999994}
-  m_LocalPosition: {x: 0.0033343881, y: -0.2, z: 0.0033277273}
+  m_LocalPosition: {x: 0.0033343881, y: 1, z: 0.0033277273}
   m_LocalScale: {x: 29.238731, y: 29.238731, z: 29.238731}
   m_Children: []
   m_Father: {fileID: 6768708442720166939}

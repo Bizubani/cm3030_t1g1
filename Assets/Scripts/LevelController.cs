@@ -11,6 +11,7 @@ public class LevelController : MonoBehaviour
     public int levelNumber;
     public bool gameStarted = true;
     private int RandomSection;
+    private GameObject[] starterLevels;
 
     // Start is called before the first frame update
     void Awake()
@@ -26,6 +27,7 @@ public class LevelController : MonoBehaviour
 
     public void GenerateLevel(bool started)
     {
+        starterLevels = Resources.LoadAll<GameObject>("Starter Levels");
         if(!gameStarted)
         {
             levelNumber++;
@@ -39,30 +41,16 @@ public class LevelController : MonoBehaviour
         {
             levelSections = Resources.LoadAll<GameObject>("GreenPrefabs");
         }
-        if (levelNumber == 2)
-        {
-            levelSections = Resources.LoadAll<GameObject>("RedPrefabs");
-        }
 
         gameLevel = GameObject.Find("Generated Level");
-        GameObject section0 = Instantiate(levelSections[0], new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject section0 = Instantiate(starterLevels[0], new Vector3(0, 0, 0), transform.rotation);
         Vector3 nextSpawn = section0.transform.Find("SpawnPoint").position;
         
         section0.transform.parent = gameLevel.transform;
         
         for (int i = 0; i < numberOfSections -1; i++)
         {
-            if(i == 0)
-            {
-                RandomSection = Random.Range(1,1);
-            }
-
-            if(i == 1)
-            {
-                RandomSection = Random.Range(2,2);
-            }
-            int section = RandomSection;
-            GameObject grnSection = Instantiate(levelSections[section], nextSpawn, Quaternion.identity);
+            GameObject grnSection = Instantiate(levelSections[i], nextSpawn, transform.rotation);
             nextSpawn = grnSection.transform.Find("SpawnPoint").position;
 
             grnSection.transform.parent = gameLevel.transform;

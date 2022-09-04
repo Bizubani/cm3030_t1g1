@@ -17,6 +17,7 @@ public class UpgradeConfirmation : MonoBehaviour
 
     private PlayerCollectableStats playerCollectableStats;
     private PlayerDeathController playerDeathController;
+    private RigidBodyPlayerMovement rigidBodyPlayerMovement;
 
     public TextMeshProUGUI textPurchased;
 
@@ -25,6 +26,7 @@ public class UpgradeConfirmation : MonoBehaviour
     {
         playerCollectableStats = GameObject.Find("Player Settings").GetComponent<PlayerCollectableStats>();
         playerDeathController = GameObject.Find("Player Character").GetComponent<PlayerDeathController>();
+        rigidBodyPlayerMovement = GameObject.Find("Player Character").GetComponent<RigidBodyPlayerMovement>();
     }
 
     public void checkScrap(int scrapAmount)
@@ -71,6 +73,18 @@ public class UpgradeConfirmation : MonoBehaviour
                 else if(upgradeType == 2)
                 {
                     playerDeathController.addToMaxShield(upgradeVersion);
+                }
+                else if(upgradeType == 3)
+                {
+                    rigidBodyPlayerMovement.addToMoveSpeed(100);
+                }
+                else if(upgradeType == 4)
+                {
+                    rigidBodyPlayerMovement.addToDashSpeed(100);
+                }
+                else if(upgradeType == 5)
+                {
+                    rigidBodyPlayerMovement.addToJumpForce(40);
                 }
                 textPurchased.text = "PURCHASED";
                 upgradePurchased = true;

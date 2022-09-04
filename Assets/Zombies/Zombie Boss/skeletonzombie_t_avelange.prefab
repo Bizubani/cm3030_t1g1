@@ -780,7 +780,7 @@ Transform:
   m_GameObject: {fileID: 3469745842558645380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 2.93}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4257083023503173943}
   - {fileID: 5700868946748851353}
@@ -878,8 +878,8 @@ MonoBehaviour:
   projectile: {fileID: 1845955007268882, guid: 27ae516e85b23984a9861bb7a4b8bcf6, type: 3}
   projectileSpawn: {fileID: 8699951514564519330}
   enemyDamageStrength: 1
-  sightRange: 100
-  attackRange: 2
+  sightRange: 20
+  attackRange: 5
   playerInSightRange: 0
   playerInAttackRange: 0
   despawnRange: 100

@@ -20,7 +20,8 @@ public class RobotTurretMovementScript : MonoBehaviour
     private GameObject CM;
 
     private Vector3 tmpMousePosition;
-    AudioSource turretMove;
+    AudioSource audioSource;
+    public AudioClip turretMoveClip;
 
     public Transform PlayerCursor;
     public float rayCastDistance;
@@ -29,13 +30,14 @@ public class RobotTurretMovementScript : MonoBehaviour
     // public float cameraHeight = 10f;
     private void Start()
     {
+        CM = GameObject.Find("Menu");
         PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         PlayerCameraTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
         PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         PlayerCursor = GameObject.Find("Player Cursor").GetComponent<Transform>();
 
         tmpMousePosition = Input.mousePosition;
-        turretMove = gameObject.GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -46,25 +48,25 @@ public class RobotTurretMovementScript : MonoBehaviour
 
             if (CM.activeSelf)
             {
-
+                //Nothing
+                audioSource.Stop();
             }
         }
         catch (Exception e) 
         {
             MovePlayer();
-        }   
 
-        if (tmpMousePosition != Input.mousePosition)
-        {
-            Debug.Log("Mouse moved");
-            tmpMousePosition = Input.mousePosition;
+            if (tmpMousePosition != Input.mousePosition)
+            {
+                Debug.Log("Mouse moved");
+                tmpMousePosition = Input.mousePosition;
+            }
+            else
+            {
+                audioSource.clip = turretMoveClip;
+                audioSource.Play();
+            }
         }
-        else
-        {
-            turretMove.Play();
-        }
-
-
     }
 
     private void MovePlayer()

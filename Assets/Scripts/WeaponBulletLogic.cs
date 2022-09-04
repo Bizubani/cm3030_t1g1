@@ -27,7 +27,8 @@ public class WeaponBulletLogic : MonoBehaviour
     [Header("RECOIL")]
     public Rigidbody playerRigidBody;
     public float recoilForce;
-    public CameraShake cameraShake;
+    public CameraShake cameraShake1;
+    public CameraShake cameraShake2;
     public CameraShake audioListener1;
 
     //Bools
@@ -80,7 +81,8 @@ public class WeaponBulletLogic : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
 
-        cameraShake = GameObject.Find("Main Camera").GetComponent<CameraShake>();
+        cameraShake1 = GameObject.Find("CM vcam2").GetComponent<CameraShake>();
+        cameraShake2 = GameObject.Find("CM vcam2").GetComponent<CameraShake>();
         audioListener1 = GameObject.Find("Audio Listener").GetComponent<CameraShake>();
 
         playerRigidBody = GameObject.Find("Player Character").GetComponent<Rigidbody>();
@@ -161,8 +163,9 @@ public class WeaponBulletLogic : MonoBehaviour
             bulletsShot = 0;
 
             Shoot();
-            StartCoroutine(cameraShake.Shake(0.10f,0.3f));
-            StartCoroutine(audioListener1.Shake(0.10f,0.3f));
+            StartCoroutine(cameraShake1.Shake(0.1f,0.1f));
+            StartCoroutine(cameraShake2.Shake(0.1f,0.1f));
+            StartCoroutine(audioListener1.Shake(0.1f,0.1f));
         }
     }
 

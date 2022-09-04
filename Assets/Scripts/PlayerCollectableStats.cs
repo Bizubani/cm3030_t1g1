@@ -13,6 +13,8 @@ public class PlayerCollectableStats : MonoBehaviour
     public TextMeshProUGUI playerLevelText;
     public TextMeshProUGUI playerLevelMenuText;
     public TextMeshProUGUI playerTotalOrbsCollectedText;
+    public TextMeshProUGUI playerTotalOrbsCollectedTextInMenu;
+    public int count = 0;
 
     public Slider playerXPSlider;
     public int playerLevel = 0;
@@ -22,6 +24,7 @@ public class PlayerCollectableStats : MonoBehaviour
 
     public TextMeshProUGUI playerScrapText;
     public TextMeshProUGUI playerTotalScrapCollectedText;
+    public TextMeshProUGUI playerTotalScrapCollectedTextInMenu;
 
     public int playerPodsCollected = 0;
     public TextMeshProUGUI playerTotalPodsCollectedText;
@@ -33,26 +36,23 @@ public class PlayerCollectableStats : MonoBehaviour
     public TextMeshProUGUI playerTotalBossKillsText;
 
     ////
+    public GameObject[] SpecialItems;
     public int NUKEITEM = 0;
-    public GameObject NukeObject;
-
     public int CUREITEM = 0;
-    public GameObject CureObject;
-
     public int ROBOTITEM = 0;
-    public GameObject RobotObject;
-
     public int SOURCEITEM = 0;
-    public GameObject SourceObject;
-
     public int ROCKETITEM = 0;
-    public GameObject RocketObject;
 
     void Start()
     {
         playerXPSlider.minValue = experienceXP; 
         playerXPSlider.maxValue = experienceXPCap;
         playerXPSlider.value = experienceXP;
+
+        for(int i = 0; i < SpecialItems.Length; i++)
+        {
+            SpecialItems[i].transform.GetChild(0).gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -78,6 +78,7 @@ public class PlayerCollectableStats : MonoBehaviour
         playerLevelText.text = "Level | "+ playerLevel.ToString(); 
         playerLevelMenuText.text = "Level | "+ playerLevel.ToString(); 
         playerTotalOrbsCollectedText.text = "Orbs Collected: " + totalCurrencyScrapCollected.ToString();
+        playerTotalOrbsCollectedTextInMenu.text = "/ " + totalCurrencyScrapCollected.ToString();
         playerXPSlider.value = experienceXP;
     }
 
@@ -87,6 +88,7 @@ public class PlayerCollectableStats : MonoBehaviour
         currencyScrap += addScrap;
         playerScrapText.text = currencyScrap.ToString(); 
         playerTotalScrapCollectedText.text = "Scrap Collected: " + totalCurrencyScrapCollected.ToString();
+        playerTotalScrapCollectedTextInMenu.text = "/ " + totalCurrencyScrapCollected.ToString();
     }
 
     public void addToPodsCollect(int addPods)
@@ -105,6 +107,27 @@ public class PlayerCollectableStats : MonoBehaviour
     {
         playerBossKills += addBoss;
         playerTotalBossKillsText.text = "Bosses Irradicated: " + playerBossKills.ToString();
+    }
+
+    public void CheckSpecialItems(int itemNumber)
+    {
+        SpecialItems[itemNumber].transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void isMissionComplete()
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            if(SpecialItems[i].transform.GetChild(0).gameObject.activeSelf)
+            {
+                count += 1;
+            }
+        }
+
+        if(count < 5)
+        {
+            count = 0;
+        }
     }
 
     public void updateLootCounters()
