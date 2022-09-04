@@ -416,8 +416,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a96e4d6fb061b488d51526ca914b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpecial: 1
+  SpecialNumber: 1
   itemRange: 5
   playerInItemRange: 0
+  itemRespawn: 0
+  respawnTimeInSeconds: 10
   player: {fileID: 0}
   whatIsPlayer:
     serializedVersion: 2

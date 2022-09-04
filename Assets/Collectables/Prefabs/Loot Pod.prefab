@@ -636,10 +636,13 @@ MonoBehaviour:
   xpOrb: {fileID: 6243283053938327201, guid: d76a043fac799794d81e26c9f682336a, type: 3}
   scrapOrb: {fileID: 7923196355059958166, guid: 5e5b7a5e61bbc0b489c3cccccaae9cd8,
     type: 3}
+  hasInteractSign: 1
   interactSign: {fileID: 0}
+  hasFakeItemsInside: 1
   cubeItems: {fileID: 0}
   IsLootBox: 1
   lootSpawnPoint: {fileID: 4600105667377844647}
+  hasAnimator: 1
   PodAnimator: {fileID: 8191493042964488725}
   IsOpen: IsOpen
   IsIdle: IsIdle

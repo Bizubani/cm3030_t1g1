@@ -58,7 +58,7 @@ public class UpgradesSettings : MonoBehaviour
         }
     }
 
-    public void SpecialUpgrades(int upgradeNumber)
+    public void EnhancementsUpgrades(int upgradeNumber)
     {
         switch(upgradeNumber)
         {

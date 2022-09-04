@@ -245,6 +245,21 @@ public class RigidBodyPlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 
+    public void addToMoveSpeed(int addSpeed)
+    {
+        moveSpeed += addSpeed;
+    }
+
+    public void addToDashSpeed(int addSpeed)
+    {
+        dashSpeed += addSpeed;
+    }
+
+    public void addToJumpForce(int addForce)
+    {
+        jumpForce += addForce;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider != null && collision.collider.tag == "Level")

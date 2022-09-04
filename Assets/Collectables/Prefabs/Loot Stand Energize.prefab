@@ -295,8 +295,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76a96e4d6fb061b488d51526ca914b79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSpecial: 0
+  SpecialNumber: 0
   itemRange: 3
   playerInItemRange: 0
+  itemRespawn: 1
+  respawnTimeInSeconds: 30
   player: {fileID: 0}
   whatIsPlayer:
     serializedVersion: 2
@@ -315,6 +319,7 @@ MonoBehaviour:
   startSize: 1
   lootCollectSpeed: 50
   attract: 0
+  collectWithButton: 0
   collectClip: {fileID: 8300000, guid: d4cdb5dae6fcf0a4ea6fa8cb144bbcff, type: 3}
 --- !u!114 &7982993197092207120
 MonoBehaviour:

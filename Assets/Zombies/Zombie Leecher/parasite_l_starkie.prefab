@@ -461,7 +461,7 @@ MonoBehaviour:
   projectile: {fileID: 1845955007268882, guid: 3e28f94f2142fae4ea96745345570479, type: 3}
   projectileSpawn: {fileID: 2673231109689884837}
   enemyDamageStrength: 1
-  sightRange: 50
+  sightRange: 17.5
   attackRange: 1.5
   playerInSightRange: 0
   playerInAttackRange: 0

@@ -9,6 +9,7 @@ public class PlayerDeathController : MonoBehaviour
     [SerializeField] GameObject robotBody;
     public GameObject DeathExplosion;
     public bool isPlayerDead = false;
+    public GameObject youDiedScreen;
     Rigidbody rb;
 
     public float playerHealth;
@@ -67,6 +68,7 @@ public class PlayerDeathController : MonoBehaviour
 
         playerHealthStart = playerHealth;
         playerShieldStart = playerShield;
+        youDiedScreen.SetActive(false);
 
         updateHealthAndShield();
         shieldActivator();
@@ -100,18 +102,6 @@ public class PlayerDeathController : MonoBehaviour
         {
             StartCoroutine(ShieldDeplete());
         }
-    }
-
-    public void TakeDamage(int damage)
-    {
-        if(playerShield > 0 && shieldActive == true)
-        {
-            playerShield -= damage * 10;
-        }
-        else
-        {
-            playerHealth -= damage;
-        }
 
         if(playerHealth < 0)
         {
@@ -121,6 +111,18 @@ public class PlayerDeathController : MonoBehaviour
         if(playerShield < 0)
         {
             playerShield = 0;
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if(playerShield > 0 && shieldActive == true)
+        {
+            playerShield -= damage;
+        }
+        else
+        {
+            playerHealth -= damage;
         }
 
         if(playerHealth <= 0) 
@@ -272,7 +274,9 @@ public class PlayerDeathController : MonoBehaviour
 
     IEnumerator TriggerLoadingScreen()
     {
+        youDiedScreen.SetActive(true);
         yield return new WaitForSeconds(5f);
+        youDiedScreen.SetActive(false);
         revivePlayer(true);
         menu.SetActive(true);
     }

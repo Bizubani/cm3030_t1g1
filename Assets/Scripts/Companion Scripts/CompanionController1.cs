@@ -5,12 +5,12 @@ using System;
 
 public class CompanionController1 : MonoBehaviour
 {
-    [SerializeField] private Animator CompanionHumanAnimator;
-    [SerializeField] private string IsIdling = "IsIdling";
-    [SerializeField] private string IsRunning = "IsRunning";
-    [SerializeField] private string IsWalking = "IsWalking";
-    [SerializeField] private string IsAttacking = "IsAttacking";
-    [SerializeField] private string IsDead = "IsDead";
+    // [SerializeField] private Animator CompanionHumanAnimator;
+    // [SerializeField] private string IsIdling = "IsIdling";
+    // [SerializeField] private string IsRunning = "IsRunning";
+    // [SerializeField] private string IsWalking = "IsWalking";
+    // [SerializeField] private string IsAttacking = "IsAttacking";
+    // [SerializeField] private string IsDead = "IsDead";
 
 
     public UnityEngine.AI.NavMeshAgent agent;
@@ -70,9 +70,8 @@ public class CompanionController1 : MonoBehaviour
         }
         else
         {
-            enemy.Remove(other.gameObject.transform);
-
             attack = false; 
+            clearNullEnemies();
         }
     }
 
@@ -83,17 +82,18 @@ public class CompanionController1 : MonoBehaviour
             enemy.Remove(other.gameObject.transform);
 
             attack = false;
+            clearNullEnemies();
         }
     }
 
     void Awake()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        agent.GetComponent<Animator>().speed = UnityEngine.Random.Range(minSpeed, MaxSpeed);
+        //agent.GetComponent<Animator>().speed = UnityEngine.Random.Range(minSpeed, MaxSpeed);
 
-        float RandomDeathAnimation = UnityEngine.Random.Range(0,10);
-        Debug.Log("My Random Number"+ RandomDeathAnimation);
-        CompanionHumanAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
+        //float RandomDeathAnimation = UnityEngine.Random.Range(0,10);
+        //Debug.Log("My Random Number"+ RandomDeathAnimation);
+        //CompanionHumanAnimator.SetFloat("DeathBlendAnimation", RandomDeathAnimation);
     }
 
     private void Update()
@@ -105,6 +105,13 @@ public class CompanionController1 : MonoBehaviour
         }
         
 
+            if (CM.activeSelf)
+            {
+
+            }
+        }
+        catch (Exception e) 
+        {
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatToFollow);
         playerInPatrolRange = Physics.CheckSphere(transform.position, patrolRange, whatToFollow);
@@ -256,6 +263,7 @@ public class CompanionController1 : MonoBehaviour
                 {
                     closestDistance = dist;
                     closestIndex = i;
+
                 }
             }
             else
@@ -267,9 +275,12 @@ public class CompanionController1 : MonoBehaviour
             }
         }
 
+        clearNullEnemies();
+        
         agent.SetDestination(transform.position);
-                    
-        transform.LookAt(enemy[closestIndex].position);
+        
+
+        transform.LookAt(enemy[closestIndex].position, Vector3.up);
 
 
         if(!alreadyAttacked)
@@ -277,7 +288,7 @@ public class CompanionController1 : MonoBehaviour
             //Attack code here
             //Anything
             Rigidbody rb = Instantiate(projectile, projectileSpawn.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 62f, ForceMode.Impulse);
+            rb.AddForce(transform.forward * 8f, ForceMode.Impulse);
             rb.AddForce(transform.up * 8f, ForceMode.Impulse);
 
             ///
@@ -294,11 +305,11 @@ public class CompanionController1 : MonoBehaviour
         agent.speed = 0;
         agent.SetDestination(transform.position);
 
-        CompanionHumanAnimator.SetBool(IsRunning, false);
-        CompanionHumanAnimator.SetBool(IsWalking, false);
-        CompanionHumanAnimator.SetBool(IsAttacking, false);
-        CompanionHumanAnimator.SetBool(IsIdling, false);
-        CompanionHumanAnimator.SetBool(IsDead, true);
+        // CompanionHumanAnimator.SetBool(IsRunning, false);
+        // CompanionHumanAnimator.SetBool(IsWalking, false);
+        // CompanionHumanAnimator.SetBool(IsAttacking, false);
+        // CompanionHumanAnimator.SetBool(IsIdling, false);
+        // CompanionHumanAnimator.SetBool(IsDead, true);
     }
     
     private void ResetAttack()
@@ -337,6 +348,17 @@ public class CompanionController1 : MonoBehaviour
     private void DestroyCompanion()
     {
         Destroy(gameObject,60);
+    }
+
+    void clearNullEnemies()
+    {
+        for(var i = enemy.Count - 1; i > -1; i--)
+        {
+            if (enemy[i] == null)
+            {
+                enemy.RemoveAt(i);
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()

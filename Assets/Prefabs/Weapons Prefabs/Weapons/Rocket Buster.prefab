@@ -94,11 +94,12 @@ MonoBehaviour:
   timeBetweenShots: 0
   magazineSize: 8
   bulletsPerTap: 1
-  magazineAmount: 5
+  magazineAmount: 10
   allowButtonHold: 1
   playerRigidBody: {fileID: 0}
   recoilForce: 0
-  cameraShake: {fileID: 0}
+  cameraShake1: {fileID: 0}
+  cameraShake2: {fileID: 0}
   audioListener1: {fileID: 0}
   playerCamera: {fileID: 0}
   allAttackPoints:

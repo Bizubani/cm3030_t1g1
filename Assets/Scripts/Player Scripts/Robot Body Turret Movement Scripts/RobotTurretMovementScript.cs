@@ -18,20 +18,22 @@ public class RobotTurretMovementScript : MonoBehaviour
     public float smoothTurnVelocity;
 
     private Vector3 tmpMousePosition;
-    AudioSource turretMove;
+    AudioSource audioSource;
+    public AudioClip turretMoveClip;
 
     public Transform PlayerCursor;
     public float rayCastDistance;
 
     private void Start()
     {
+        CM = GameObject.Find("Menu");
         PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         PlayerCameraTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
         PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         PlayerCursor = GameObject.Find("Player Cursor").GetComponent<Transform>();
 
         tmpMousePosition = Input.mousePosition;
-        turretMove = gameObject.GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()

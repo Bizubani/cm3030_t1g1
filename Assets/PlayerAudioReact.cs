@@ -6,7 +6,7 @@ public class PlayerAudioReact : MonoBehaviour
 {
     public AudioSource audioSource;
     public AudioClip clip;
-    public float volume=0.8f;
+    public float volume=0.5f;
     public bool playActionMusic = false;
     public bool musicChecked = false;
 
@@ -36,6 +36,7 @@ public class PlayerAudioReact : MonoBehaviour
         if(other.gameObject.tag == "Zombie Enemy" && other.gameObject.GetComponent<EnemyController>().enemyHealth <= 1)
         {
             enemy.Remove(other.gameObject.transform);
+            clearNullEnemies();
         }
     }
 
@@ -47,17 +48,11 @@ public class PlayerAudioReact : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for(var i = enemy.Count - 1; i > -1; i--)
-        {
-            if (enemy[i] == null)
-            enemy.RemoveAt(i);
-            audioSource.volume = volume;
-        }
-        
         if(enemy.Count > 0)
         {
             if(playActionMusic && !musicChecked)
             {
+                clearNullEnemies();
                 audioSource.clip = clip;
                 audioSource.Play();
                 playActionMusic = false;
@@ -79,13 +74,25 @@ public class PlayerAudioReact : MonoBehaviour
         }
     }
 
+    void clearNullEnemies()
+    {
+        for(var i = enemy.Count - 1; i > -1; i--)
+        {
+            if (enemy[i] == null)
+            {
+                enemy.RemoveAt(i);
+                audioSource.volume = volume;
+            }
+        }
+    }
+
     void checkDistanceFromEnemies()
     {
         float closestDistance = float.MaxValue;
         int closestIndex = 0;
         for(int i = 0; i < enemy.Count; i++)
         {
-            if(enemy[i].position != null)
+            if(enemy[i] != null)
             {
                 float dist = Vector3.Distance(transform.position, enemy[i].position);
                 if(dist < closestDistance && enemy[closestIndex].gameObject.GetComponent<EnemyController>().enemyHealth > 0)
@@ -93,12 +100,12 @@ public class PlayerAudioReact : MonoBehaviour
                     closestDistance = dist;
                     closestIndex = i;
 
-                    volume = 0.75f - (dist/25)*0.75f;
+                    volume = 0.3f - (dist/25)*0.3f;
                 }
             }
             else
             {
-                enemy.Remove(enemy[i]);
+                clearNullEnemies();
                 
                 return;
             }

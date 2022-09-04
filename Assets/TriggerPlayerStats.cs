@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class TriggerPlayerStats : MonoBehaviour
 {
-    public bool IsBoss = false;
-    private bool BossHasSpawned = false;
-    public GameObject triggerMenu;
-
     public int statsRange;
     public bool playerInStatRange;
     public LayerMask whatIsPlayer;
 
-    private bool explore = false;
+    private GameSettings gameSettings;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        triggerMenu = GameObject.Find("Canvas (Mission Stats)");   
-    }
+    // void Start()
+    // {
+
+    // }
 
     // Update is called once per frame
     void Update()
@@ -27,20 +23,14 @@ public class TriggerPlayerStats : MonoBehaviour
         
         if(playerInStatRange && Input.GetKeyDown(KeyCode.X))
         {
+            gameSettings = GameObject.Find("Game Settings").GetComponent<GameSettings>();
             TriggerResults();
         }
     }
 
     void TriggerResults()
     {
-        if(triggerMenu.activeSelf)
-        {
-            triggerMenu.SetActive(false);
-        }
-        else
-        {
-            triggerMenu.SetActive(true);
-        }
+        gameSettings.setMissionStats();
     }
 
     private void OnDrawGizmosSelected()
