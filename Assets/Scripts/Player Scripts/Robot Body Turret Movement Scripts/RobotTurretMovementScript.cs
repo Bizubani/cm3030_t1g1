@@ -17,6 +17,8 @@ public class RobotTurretMovementScript : MonoBehaviour
     public float smoothTurnTime = 0.1f;
     public float smoothTurnVelocity;
 
+    private GameObject CM;
+
     private Vector3 tmpMousePosition;
     AudioSource audioSource;
     public AudioClip turretMoveClip;
@@ -24,9 +26,10 @@ public class RobotTurretMovementScript : MonoBehaviour
     public Transform PlayerCursor;
     public float rayCastDistance;
 
+    // public float threshold;
+    // public float cameraHeight = 10f;
     private void Start()
     {
-        CM = GameObject.Find("Menu");
         PlayerCharacter = GameObject.Find("Player Character").GetComponent<Rigidbody>();
         PlayerCameraTransform = GameObject.Find("Main Camera").GetComponent<Transform>();
         PlayerCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -38,7 +41,7 @@ public class RobotTurretMovementScript : MonoBehaviour
 
     private void Update()
     {
-        MovePlayer();       
+        MovePlayer();
 
         if (tmpMousePosition != Input.mousePosition)
         {
@@ -47,9 +50,10 @@ public class RobotTurretMovementScript : MonoBehaviour
         }
         else
         {
-            turretMove.Play();
+            audioSource.clip = turretMoveClip;
+            audioSource.Play();
         }
-
+        
     }
 
     private void MovePlayer()
@@ -71,12 +75,10 @@ public class RobotTurretMovementScript : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
             Vector3 moveToCameraDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
             robotPlayer.transform.rotation = Quaternion.LookRotation(moveToCameraDirection);
+
         }
-
-
-          //Find the exact hit position using a raycast
+        // Ray ray = twoPointFiveDimensionCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Ray ray = PlayerCamera.ScreenPointToRay(Input.mousePosition);//A ray through the middle
         RaycastHit hit;
 
@@ -89,7 +91,6 @@ public class RobotTurretMovementScript : MonoBehaviour
                 robotTurret.transform.LookAt(hit.point);
                 PlayerCursor.position = hit.point;
             }
-        }
-   
+        }       
     }
 }
