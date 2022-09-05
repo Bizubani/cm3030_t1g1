@@ -7,18 +7,32 @@ public class CameraPosition : MonoBehaviour
     public float RotationSpeed = 0;
     public Transform CameraTarget,ThirdPersonCharacter;
     float mouseX, mouseY;
+    public bool rotateCamera = false;
+    public bool cameraFollowPositionX = false;
+    public bool cameraFollowCurrentPosition = false;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        Cursor.visible = true;
+        if(cameraFollowPositionX == true)
+        {
+            Vector3 playerPosition = new Vector3(CameraTarget.position.x, 0, 0); 
+            transform.position = playerPosition;
+        }
+        
+        if(cameraFollowCurrentPosition == true)
+        {
+            transform.position = CameraTarget.position;
+        }
     }
 
     void LateUpdate()
     {
-        CamControl();
+        if(rotateCamera == true)
+        {
+            CamControl();
+        }
     }
-    // Update is called once per frame
+    //Update is called once per frame
     void CamControl()
     {
         mouseX += Input.GetAxis("Mouse X") * RotationSpeed;
@@ -26,7 +40,7 @@ public class CameraPosition : MonoBehaviour
         mouseY = Mathf.Clamp(mouseY, 0,0); //-35,60
 
         transform.LookAt(CameraTarget);
-        CameraTarget.rotation = Quaternion.Euler(0, 0, 0);
+        transform.rotation = Quaternion.Euler(0, mouseX, 0);
         ThirdPersonCharacter.rotation = Quaternion.Euler(0, mouseX, 0);
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9012762646675940018}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpawnPoint
   m_TagString: SpawnPoint
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 325008185253663360}
   - component: {fileID: 4896999408169114223}
   - component: {fileID: 4390303307163328279}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 2148359249414737997}
   - component: {fileID: 49088002161114033}
   - component: {fileID: 4199735070954980343}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 366645718657196740}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Red0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
